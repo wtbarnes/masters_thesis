@@ -1,0 +1,56 @@
+\documentclass[12pt]{ruthesis}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphics}
+\usepackage{subfigure}
+
+\title{Impulsive Heating in the Solar Atmosphere}
+\ctitle{Impulsive Heating in the Solar Atmosphere}
+\author{Will T. Barnes}
+\department{Physics and Astronomy}
+\school{Rice University}
+\degree{Master of Science}
+
+\committee {
+        Stephen J. Bradshaw, Chair \\
+        Assistant Professor of Physics and Astronomy \and
+        David Alexander \\
+        Professor of Physics and Astronomy \and
+        Marjorie Corcoran\\
+        Professor of Physics and Astronomy
+}
+
+\address{Houston, Texas}
+\donemonth{December} \doneyear{2015} \makeindex
+\begin{document}
+
+  \begin{frontmatter}
+   \pagenumbering{roman}
+   %\makecover
+   \maketitle
+   \include{abstract}
+   %\include{ack}
+   \tableofcontents
+   \listoffigures
+   \listoftables
+%   \include{ded}
+  \end{frontmatter}
+\pagenumbering{arabic}
+
+\linespacing{1.7}
+
+\include{ch1}
+
+\appendix
+
+%\include{append-a}
+%\appendix
+%\addcontentsline{toc} {chapter}{\numberline {}Appendix A}
+%\include{append-a}
+%\include{append-b}
+%\addcontentsline{toc} {chapter}{\numberline {}Bibliography}{}
+%\include{biblio}
+
+\bibliographystyle{apj}
+\bibliography{references.bib}
+\end{document}
