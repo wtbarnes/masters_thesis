@@ -1,21 +1,37 @@
 \chapter{Numerical Modeling}
 \label{ch:numerical}
-This chapter will outline our numerical approach to studying the solar corona
+\hl{This chapter will outline our numerical approach to studying the solar corona}
+\par Often, the full 3D magnetohydrodynamic (MHD) equations are used when modeling loops in the solar corona. However, such treatments are computationally expensive and are prohibitive when studies of large parameter spaces are needed. Instead, the one-dimensional (1D) hydrodynamic equations are used to model plasma dynamics in coronal loops. These hydrodynamic equations do not include the magnetic field $B$. This is because the corona These equations are parameterized in terms of time, $t$, and the field-aligned coordinate, $s$. 
 \section{One-dimensional Hydrodynamics}
 \label{sec:1dhydro}
-List the 1D hydrodynamic equations and briefly discuss their origin (i.e. how they were derived) and how they differ from MHD approach
-Include plasma $\beta$ justification of why we don't include the magnetic field
-Emphasize terms that are ``non-standard'' hydrodynamic terms (e.g. radiation, heat flux, ad-hoc heating, enthalpy transfer)
-Bring up HYDRAD model and discuss speed limitations
+\hl{List the 1D hydrodynamic equations and briefly discuss their origin (i.e. how they were derived) and how they differ from MHD approach
+Include plasma $\beta$ justification of why we don't include the magnetic field}
+\par The single-fluid 1D hydrodynamic equations are given by,
+\begin{align}
+	\frac{\partial\rho}{\partial t} &= -\frac{\partial(\rho v)}{\partial s} \label{eq:1dmass} \\
+	\frac{\partial(\rho v)}{\partial t} &= -\frac{\partial(\rho v^2)}{\partial s}-\frac{\partial(p)}{\partial s} + \frac{\partial}{\partial s}\left(\frac{4}{3}\mu\frac{\partial v}{\partial s}\right) + \rho g_{\parallel} \label{eq:1dmom} \\
+	\frac{\partial E}{\partial t} &= -\frac{\partial}{\partial s}((E+p)v)-\frac{\partial F}{\partial s} + E_H - E_R +\rho g_{\parallel}v, \label{eq:1denergy_sf}
+\end{align}
+where
+\begin{equation}
+	E=\frac{1}{\gamma-1}p+\frac{1}{2}\rho v^2.
+\end{equation}
+$s$ and $t$ are the field-aligned spatial coordinate and time, respectively, $\rho=mn$ is the mass density, $v$ is the bulk velocity, $\mu$ is the viscosity coefficient and $g_{\parallel}$ is the component of gravitational acceleration parallel to $s$, $E$ is the energy density and $p=2nk_BT$ is the pressure subject to closure by the ideal gas law.
+\par Additionally, we also have three terms that are specific to energy balance in a coronal loop: the heat flux $F=\kappa_0T^{5/2}\partial T/\partial s$, typically given by the classical Spitzer-Harm expression, the ad-hoc heating term $E_H$, and the volumetric radiative loss term $E_R=n^2\Lambda(T)$, where $\Lambda(T)$ is the radiative loss function.
+\hl{Emphasize terms that are ``non-standard'' hydrodynamic terms (e.g. radiation, heat flux, ad-hoc heating, enthalpy transfer)
+Bring up HYDRAD model and discuss speed limitations}
 \section{The EBTEL Model}
 \label{sec:ebtel}
-Derive the EBTEL equations from the 1D hydrodynamic equations and discuss the physics behind the EBTEL model; what physics is left out? what physical insight can we still gain from this model?
-Say why EBTEL is important (i.e. large parameter sweeps that can't be done with HYDRAD)
-Discuss 0D nature, maybe include discussion of previous 0D models and why EBTEL is better
-Show comparisons between EBTEL and HYDRAD
+When using hydrodynamic simulations to study coronal loops, it is often best to compare computed observables with observations in order to make constraints on loop properties. To do this, one must explore a very large parameter space of initial conditions (e.g. loop length, heating frequency, power-law index, etc.,). Though the 1D hydrodynamic equations have been shown to accurately model coronal loops,
+\hl{Derive the EBTEL equations from the 1D hydrodynamic equations and discuss the physics behind the EBTEL model; what physics is left out? what physical insight can we still gain from this model?}
+\hl{Say why EBTEL is important (i.e. large parameter sweeps that can't be done with HYDRAD)}
+\hl{Discuss 0D nature, maybe include discussion of previous 0D models and why EBTEL is better}
+\hl{Show comparisons between EBTEL and HYDRAD}
 \section{The Two-fluid EBTEL Model}
 \label{sec:ebtel2fl}
-Discuss importance of two-fluid effects in hydrodynamic models of the solar corona; include some quick calculations to show how electron and ion fluids can become decoupled
-Derive two-fluid EBTEL equations from 1D hydrodynamic equations
-Show several comparisons between HYDRAD and two-fluid EBTEL to justify its use in this study
-If there is time, discuss speed comparison between EBTEL and HYDRAD
+\hl{Discuss importance of two-fluid effects in hydrodynamic models of the solar corona; include some quick calculations to show how electron and ion fluids can become decoupled}
+\hl{Derive two-fluid EBTEL equations from 1D hydrodynamic equations
+Show several comparisons between HYDRAD and two-fluid EBTEL to justify its use in this study}
+\hl{remember to show EM calculation, justification, how EBTEL treats DEM as opposed to HYDRAD}
+\hl{Briefly detail solver(s) used, adaptive timestep, why this is necessary, etc.}
+\hl{If there is time, discuss speed comparison between EBTEL and HYDRAD}
