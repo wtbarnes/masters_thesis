@@ -4,3 +4,7 @@
 !.gitignore
 !*.tex
 !*.pdf
+!*.md
+!*.eps
+!*.png
+!*.jpg
