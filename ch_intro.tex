@@ -49,9 +49,27 @@ Give a nice history of solar observations and discuss current observing efforts 
 \label{sec:magnetic_field}
 \hl{touch on field origin (dynamo theory), discuss how the field gets tangled, formation of loops, drives behavior of the atmosphere, lead into discussion of coronal heating, low beta versus high beta}
 %
+\par Because of the high temperatures that characterize both the solar atmosphere and interior, much of the gas that makes up the Sun is ionized; that is, each atom has been stripped of at least one of its electrons. This means that the Sun is filled by a sea of charged particles, or plasma. In the corona where temperatures are often higher than $1\times10^6$ K, even heavy elements such as Mg, Ca, and Fe are stripped of their electrons. Because these particles are charged, their motion is strongly dictated by both the electric and magnetic fields via the Lorentz force law. Thus, to understand the dynamics of the coronal plasma, one must first try to understand the magnetic field that ultimately controls it.
+%
+\par The Sun, like the Earth, possesses an intrinsic magnetic field, though its origin and dynamics constitute a largely unsolved problem. Additionally, unlike Earth, the solar magnetic field is highly dynamic and comparatively quite strong (up to 1000 G in sunspots as compared to the $<1$ G field on Earth) \citep{aschwanden_physics_2006}. From the earliest studies of magnetism, it has been known that a conductor moving through a magnetic field produces a current. This current then in turn produces an additional magnetic field. Treating the convection zone (below the photosphere) plasma as the conductor and assuming some preexisting, but small magnetic field leads to what is commonly known as \textit{dynamo theory} \citep{golub_solar_2010}.
+%
+\par Dynamo theory seeks to show self-consistently how the interaction between the Sun's hot plasma and some small initial field leads to the observed complicated topologies and field strengths. Modeling such a system is no easy task as the interactions between the field and the plasma are highly non-linear, meaning solving the so-called ``dynamo equations'' requires a significant amount of computational effort. \hl{something here about how the field pops and creates loop things, Reale loop paper, add NLFF figure here to show complexity of the field}
+%
+\begin{figure}
+	\centering
+	\includegraphics[width=0.5\textwidth]{figures/plasma_beta.png}
+	\caption{Taken from \citet{gary_plasma_2001}.}
+	\label{fig:plasma_beta}
+\end{figure}
+%
+\par Fortunately, we can still learn something about the corona without completely solving the problem of where the driving magnetic field comes from. The corona constitues what is commonly referred to as a ``low-beta plasma'' such that $\beta=p_{\mathrm{thermal}}/(B^28\pi)$, the ratio between the gas pressure and magnetic pressure, is $\beta<1$ (see Fig. \ref{fig:plasma_beta}). This means that coronal magnetic field acts as a guide for the plasma, with the flow directed primarily in the field direction with negligible cross-field motion. A useful analogy is that of water flowing through a pipe: the rigid pipe directs the flow of the water, but has no affect the underlying fluid dynamics. Provided the field is reasonably stable and the relevant fluid equations are parameterized in terms of the field-aligned coordinate, our equations governing the plasma dynamics need not include the field at all!
+%
+\par \hl{Talk about drawbacks, mention MHD and hydrodynamic and hydrostatic; lead into coronal heating conversation}
+%%
 \section{The Coronal Heating Problem}
 \label{sec:heating}
 \hl{Here discuss coronal heating broadly, first evidence for high coronal temperatures, some proposed heating mechanisms, magnetic reconnection, AC versus DC heating, wave heating versus braiding etc.}
+Use Klimchuk review of coronal heating for this section + Cargill nanoflare paper(s)
 \section{Summary}
 \label{sec:summary}
 %
