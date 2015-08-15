@@ -53,23 +53,39 @@ Give a nice history of solar observations and discuss current observing efforts 
 %
 \par The Sun, like the Earth, possesses an intrinsic magnetic field, though its origin and dynamics constitute a largely unsolved problem. Additionally, unlike Earth, the solar magnetic field is highly dynamic and comparatively quite strong (up to 1000 G in sunspots as compared to the $<1$ G field on Earth) \citep{aschwanden_physics_2006}. From the earliest studies of magnetism, it has been known that a conductor moving through a magnetic field produces a current. This current then in turn produces an additional magnetic field. Treating the convection zone (below the photosphere) plasma as the conductor and assuming some preexisting, but small magnetic field leads to what is commonly known as \textit{dynamo theory} \citep{golub_solar_2010}.
 %
-\par Dynamo theory seeks to show self-consistently how the interaction between the Sun's hot plasma and some small initial field leads to the observed complicated topologies and field strengths. Modeling such a system is no easy task as the interactions between the field and the plasma are highly non-linear, meaning solving the so-called ``dynamo equations'' requires a significant amount of computational effort. \hl{something here about how the field pops and creates loop things, Reale loop paper, add NLFF figure here to show complexity of the field}
+\begin{figure}
+	\centering
+	\subfigure[]{%
+	\includegraphics[width=0.45\textwidth]{figures/piddington_cartoon.png}
+	\label{fig:cartoon_flux}}
+	\subfigure[]{%
+	\includegraphics[width=0.45\textwidth]{figures/mag_field_extrapolation.png}
+	\label{fig:mag_extrap}}
+	\caption{\textbf{(a)} Flux emergence from twisted and tangled field below the photosphere yields loop structures that stretch high into the solar atmosphere. Taken from \citet{gold_magnetic_1964}.\textbf{(b)} The coronal magnetic field topology is extremely complex, making determinations of coronal plasma dynamics difficult. Shown here is a magnetic field extrapolation constructed from an optical magnetogram. An image from the TRACE satellite is superimposed to show the loop structures. Taken from \citet{reale_coronal_2010}.}
+	\label{fig:complex_fields}
+\end{figure}
+%
+\par Dynamo theory seeks to show self-consistently how the interaction between the Sun's hot plasma and some small initial field leads to the observed complicated topologies and field strengths. Modeling such a system is no easy task as the interactions between the field and the plasma are highly non-linear, meaning solving the so-called ``dynamo equations'' requires a significant amount of computational effort. But how does this field affect the plasma dynamics of the corona? The solar magnetic field is said to be \textit{frozen in} to the solar plasma; that is, the field moves with the plasma. Since the Sun is not solid, it undergoes \textit{differential rotation}, meaning that different latitudes are spinning at different rates. Since the field follows the motion of the plasma, this causes the normally dipolar (north-south aligned) field to have an east-west component. This amplified and twisted field is then carried up to the photosphere by magnetic buoyancy, an idea first proposed by \citep{parker_formation_1955}, resulting in dipolar loop-like structures poking through the solar atmosphere (see Fig. \ref{fig:cartoon_flux}). This phenomenon, commonly referred to as magnetic flux emergence, is by no means a solved problem and is a continuing topic of research \citep[see][]{cheung_flux_2014}. Finding out how the solar magnetic field is generated and how it makes its way to the upper atmosphere will undoubtedly help to explain much of the observed plasma dynamics in the corona.
 %
 \begin{figure}
 	\centering
-	\includegraphics[width=0.5\textwidth]{figures/plasma_beta.png}
+	\includegraphics[width=0.6\textwidth]{figures/plasma_beta.png}
 	\caption{Taken from \citet{gary_plasma_2001}.}
 	\label{fig:plasma_beta}
 \end{figure}
 %
-\par Fortunately, we can still learn something about the corona without completely solving the problem of where the driving magnetic field comes from. The corona constitues what is commonly referred to as a ``low-beta plasma'' such that $\beta=p_{\mathrm{thermal}}/(B^28\pi)$, the ratio between the gas pressure and magnetic pressure, is $\beta<1$ (see Fig. \ref{fig:plasma_beta}). This means that coronal magnetic field acts as a guide for the plasma, with the flow directed primarily in the field direction with negligible cross-field motion. A useful analogy is that of water flowing through a pipe: the rigid pipe directs the flow of the water, but has no affect the underlying fluid dynamics. Provided the field is reasonably stable and the relevant fluid equations are parameterized in terms of the field-aligned coordinate, our equations governing the plasma dynamics need not include the field at all!
+\par Fortunately, we can still learn something about the corona without completely solving the problem of where the driving magnetic field comes from. The corona constitues what is commonly referred to as a ``low-beta plasma'' such that $\beta=p_{\mathrm{thermal}}/(B^28\pi)$, the ratio between the gas pressure and magnetic pressure, is $\beta<1$ (see Fig. \ref{fig:plasma_beta}). This means that coronal magnetic field acts as a guide for the plasma, with the flow directed primarily in the field direction with negligible cross-field motion. A useful analogy is that of water flowing through a pipe: the rigid pipe directs the flow of the water, but has no affect on the underlying fluid dynamics. Provided the field is reasonably stable and the relevant fluid equations are parameterized in terms of the field-aligned coordinate, our equations governing the plasma dynamics need not include the field at all!
 %
-\par \hl{Talk about drawbacks, mention MHD and hydrodynamic and hydrostatic; lead into coronal heating conversation}
+\par \hl{Talk about drawbacks, mention MHD and hydrodynamic and hydrostatic; lead into coronal heating conversation; not sure if this is actually needed here...}
 %%
 \section{The Coronal Heating Problem}
 \label{sec:heating}
-\hl{Here discuss coronal heating broadly, first evidence for high coronal temperatures, some proposed heating mechanisms, magnetic reconnection, AC versus DC heating, wave heating versus braiding etc.}
-Use Klimchuk review of coronal heating for this section + Cargill nanoflare paper(s)
+\hl{Here discuss coronal heating broadly, first evidence for high coronal temperatures, some proposed heating mechanisms, magnetic reconnection, AC versus DC heating, wave heating versus braiding etc. Use Klimchuk review of coronal heating for this section + Cargill nanoflare paper(s)
+}
+%
+\par Thus, far we have not addressed the important question of why the solar corona is so much hotter than the surface. From an intuitive, thermodynamic perspective, we would expect the atmospheric temperature to decrease as we moved away from the surface. However, nearly 70 years of observations have shown this is not the case and these anomalously high temperatures, dubbed the ``coronal heating problem,'' continue to baffle solar physicists today.
+%
+\par The discovery of the $>1\times10^6$ K corona was made over the course of nearly fifty years through many laborious spectroscopic observations. Spectroscopic measurements during the late-nineteenth and early twentieth centuries of solar eclipses and images obtained from coronagraphs yielded a suprising result:
 \section{Summary}
 \label{sec:summary}
 %
