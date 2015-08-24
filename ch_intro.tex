@@ -1,12 +1,10 @@
 \chapter{Introduction}
 \label{ch:intro}
-\hl{Intro to the first chapter
-Give a nice history of solar observations and discuss current observing efforts as well as modeling efforts, but briefly; quickly move into atmosphere, corona}
 \par The Sun is the most important celestial body to life on Earth. For the last five billion years, it has provided the light by which humans observe the world around them and the heat to save the planet from the frigid temperatures of interplanetary space. Because of its proximity, the Sun provides astronomers an exclusive and unique look into how stars behave. By observing and understanding the Sun, one can make conclusions about other types of stars in our galaxy and the universe.
 %
 \par Perhaps no other consistent celestial event has attracted as much attention as the solar eclipse. Solar eclipses have been observed and recorded for thousands of years, with some reports dating back to the fourteenth century BC \citep{golub_solar_2010}. The recordings of ancient eclipses have been heavily studied. Chinese rock drawings dating back to the Han dynasty (approximately 1900 years ago) appear to show the moon completely obscuring the Sun. Additionally, some have even suggested the Aubrey holes that surround the Stonehenge site were used to track and predict both solar and lunar eclipses \citep{golub_solar_2010}. Though some claims of ancient eclipse studies are controversial, it suffices to say that humans have long sought to study and explain the behavior of the nearest star to Earth.
 %
-\begin{figure}
+\begin{figure}[htbp]
 	\centering
 	\includegraphics[width=0.7\textwidth]{figures/Tse_2015_Svalbard_800mm_Nikon_D810.png}
 	\caption{Total eclipse as seen from Svalbard, Norway on March 20, 2015. Open and closed loops in the highly-structured solar corona are clearly visible. Photo courtesy of Miloslav Druckm\"{u}ller.}
@@ -21,14 +19,13 @@ Give a nice history of solar observations and discuss current observing efforts 
 %%
 \section{Structure of the Solar Atmosphere}
 \label{sec:structure}
-\hl{This section will discuss the structure of the solar atmosphere including the different layers of the Sun and how they are connected. This will help to introduce the solar corona}
 \par Though the Sun can be easily seen from Earth, its dynamic and highly structured atmosphere is not observable with the naked eye, with the one exception being brief glimpses of the corona during an eclipse. The interior of the Sun is of course very complex and constitutes a very different regime of physics than that seen in the solar atmosphere. Thus, this work will be primarily limited to the upper solar atmosphere with some discussion of the lower layers.
 %
 \par The solar atmosphere is often divided up into four separate regions: the photosphere, the chromosphere, the transition region, and the corona. Fig. \ref{fig:cartoon_layers} shows a cartoon of the different layers while Fig. \ref{fig:graph_layers} shows the density and temperature profiles of the atmosphere with each region labeled. The \textit{photosphere} is what we typically refer to as the solar surface, with the actual surface located where the optical depth, $\tau$, is equal to 1. This region also contains the lowest temperature on the Sun, approximately 4400 K, located about 525 km above the surface \citep{carroll_introduction_2007}. The photosphere is where the majority of the visibly (with the naked eye) observable photons originate.
 %
 \par The temperature minimum defines the top of the photosphere above which lies the \textit{chromosphere}. As can be seen from Fig. \ref{fig:graph_layers}, the density in the chromosphere is many orders of magnitude less than that of the photosphere and the temperature has increased from the minimum up to about $1\times10^4$ K. Though not visible with the naked eye, the chromosphere is highly structured. Structures such as spicules, tall columns of gas that extend high into the solar atmosphere thought to heavily impact the behavior of plasma in the corona \citep{de_pontieu_origins_2011}, originate in the photosphere as well as filaments, essentially spicules observed on-disk and plage, bright regions surrounding sunspots.
 %
-\begin{figure}
+\begin{figure}[htbp]
 	\centering
 	\subfigure[]{%
 	\includegraphics[width=0.45\textwidth]{figures/cartoon_layers.pdf}
@@ -36,7 +33,7 @@ Give a nice history of solar observations and discuss current observing efforts 
 	\subfigure[]{%
 	\includegraphics[width=0.45\textwidth]{figures/diagram_layers.png}
 	\label{fig:graph_layers}}
-	\caption{Layers of the solar atmosphere \textbf{(a)}Courtesy of NASA \textbf{(b)} Taken from \citet{gary_solar_2007}}
+	\caption{\textbf{(a)} Schematic showing the layers of the solar atmosphere; the corona is the uppermost layer of the atmosphere. Courtesy of NASA \textbf{(b)} Temperature and density as a function of height above the solar surface; the corona is characterized by low densities and anomalously-high temperatures. Taken from \citet{gary_solar_2007}}
 	\label{fig:layers}
 \end{figure} 
 %
@@ -48,15 +45,13 @@ Give a nice history of solar observations and discuss current observing efforts 
 %%
 \section{The Solar Magnetic Field}
 \label{sec:magnetic_field}
-\hl{touch on field origin (dynamo theory), discuss how the field gets tangled, formation of loops, drives behavior of the atmosphere, lead into discussion of coronal heating, low beta versus high beta}
-%
 \par Because of the high temperatures that characterize both the solar atmosphere and interior, much of the gas that makes up the Sun is ionized; that is, each atom has been stripped of at least one of its electrons. This means that the Sun is filled by a sea of charged particles, or plasma. In the corona where temperatures are often higher than $1\times10^6$ K, even heavy elements such as Mg, Ca, and Fe are stripped of their electrons. Because these particles are charged, their motion is strongly dictated by both the electric and magnetic fields via the Lorentz force law. Thus, to understand the dynamics of the coronal plasma, one must first try to understand the magnetic field that ultimately controls it.
 %
 \subsection{The Solar Dynamo and Flux Emergence}
 \label{subsec:dynamo_flux}
 \par The Sun, like the Earth, possesses an intrinsic magnetic field, though its origin and dynamics constitute a largely unsolved problem. Additionally, unlike Earth, the solar magnetic field is highly dynamic and comparatively quite strong (up to 1000 G in sunspots as compared to the $<1$ G field on Earth) \citep{aschwanden_physics_2006}. From the earliest studies of magnetism, it has been known that a conductor moving through a magnetic field produces a current. This current then in turn produces an additional magnetic field. Treating the convection zone (below the photosphere) plasma as the conductor and assuming some preexisting, but small magnetic field leads to what is commonly known as \textit{dynamo theory} \citep{golub_solar_2010}.
 %
-\begin{figure}
+\begin{figure}[htbp]
 	\centering
 	\subfigure[]{%
 	\includegraphics[width=0.60\textwidth]{figures/piddington_cartoon.png}
@@ -70,10 +65,10 @@ Give a nice history of solar observations and discuss current observing efforts 
 %
 \par Dynamo theory seeks to show self-consistently how the interaction between the Sun's hot plasma and some small initial field leads to the observed complicated topologies and field strengths. Modeling such a system is no easy task as the interactions between the field and the plasma are highly non-linear, meaning solving the so-called ``dynamo equations'' requires a significant amount of computational effort. But how does this field affect the plasma dynamics of the corona? The solar magnetic field is said to be \textit{frozen in} to the solar plasma; that is, the field moves with the plasma. Since the Sun is not solid, it undergoes \textit{differential rotation}, meaning that different latitudes are spinning at different rates. Since the field follows the motion of the plasma, this causes the normally dipolar (north-south aligned) field to have an east-west component. This amplified and twisted field is then carried up to the photosphere by magnetic buoyancy, an idea first proposed by \citep{parker_formation_1955}, resulting in dipolar loop-like structures poking through the solar atmosphere (see Fig. \ref{fig:cartoon_flux}). This phenomenon, commonly referred to as magnetic flux emergence, is by no means a solved problem and is a continuing topic of research \citep[see][]{cheung_flux_2014}. Finding out how the solar magnetic field is generated and how it makes its way to the upper atmosphere will undoubtedly help to explain much of the observed plasma dynamics in the corona. 
 %
-\begin{figure}
+\begin{figure}[htbp]
 	\centering
 	\includegraphics[width=0.6\textwidth]{figures/plasma_beta.png}
-	\caption{Taken from \citet{gary_plasma_2001}.}
+	\caption{Evolution of $\beta$ as a function of height in the solar atmosphere. In the chromosphere, the gas pressure dominates ($\beta>1$) while in the corona, the opposition is true, making cross-field motion negligible. Out in the solar wind, the plasma returns to $\beta>1$. Taken from \citet{gary_plasma_2001}.}
 	\label{fig:plasma_beta}
 \end{figure}
 %
@@ -81,7 +76,7 @@ Give a nice history of solar observations and discuss current observing efforts 
 \label{subsec:magnetic_reconnection}
 \par After the magnetic field is forced into the solar atmosphere by the bouyant motion of the convective zone, it remains rooted in the photosphere, whether it is an \textit{open} (flux tube extends radially outward, possibly connecting with the interplanetary magnetic field) or \textit{closed} (both ends attached to the solar surface) field line. Because the field is \textit{line-tied}, or frozen into the photospheric plasma, the turbulent motion of the photosphere deforms and stresses the overlying field, leading to the storage of magnetic energy. This motion can eventually lead to a topological restructuring of the magnetic field as it relaxes from a stressed to an equilibrium state, a process popularly known as \textit{magnetic reconnection}.
 %
-\begin{figure}
+\begin{figure}[htbp]
 	\centering
 	\includegraphics[width=0.6\textwidth]{figures/reconnection_cartoon.pdf}
 	\caption{Cartoon showing basics of reconnection process. Image taken from \citet{priest_magnetic_2000}.}
@@ -115,7 +110,7 @@ Give a nice history of solar observations and discuss current observing efforts 
 %
 \par While \citet{gold_magnetic_1964,parker_magnetic_1983,parker_magnetic_1983-1} included few comparisons to observations (mainly due to the lack of high-resolution instruments of the day), observations from the recently-launched High Resolution Coronal Imager (\textit{Hi-C}) seem to support the idea of magnetic braiding. \citet{cirtain_energy_2013} report two observations, in particular, from the \textit{Hi-C} instrument that show braided magnetic fields, supporting the idea of a DC heating mechanism. \hl{Something here about Hi-C resolution maybe}
 %
-\begin{figure}
+\begin{figure}[htbp]
 	\centering
 	\subfigure[]{%
 	\includegraphics[width=0.4\textwidth]{figures/parker_braids.pdf}
@@ -137,4 +132,4 @@ Give a nice history of solar observations and discuss current observing efforts 
 \section{Summary}
 \label{sec:summary}
 %
-The coronal heating problem is one of the most important unsolved problems in astrophysics. Gaining insight into the complex dynamics of the coronal magnetic field and plasma will allow us to better understand our own Sun and, in particular, how it affects our life here on Earth. Additionally, the field of solar physics has broader applications to fundamental astrophysical processes as studying our closest star will give us a better understanding of how stars throughout the universe behave and evolve. 
+The coronal heating problem is one of the most important unsolved problems in astrophysics. Gaining insight into the complex dynamics of the coronal magnetic field and plasma will allow us to better understand our own Sun and, in particular, how it affects our life here on Earth. Additionally, the field of solar physics has broader applications to fundamental astrophysical processes as studying our closest star will give us a better understanding of how stars throughout the universe behave and evolve. This thesis will focus on the study of coronal heating through the use of hydrodynamic models in which the underlying magnetic field is assumed to be static. In particular, this work will analyze how different heating models affect the emission measure and the resulting observables. This approach, commonly referred to as \textit{forward modeling}, allows one to assess the physical validity of a number of free parameters when compared to observations. \S\ref{ch:coronal_loops} will discuss loop structures in the solar corona with an emphasis on recent observational findings and current modeling techniques. \S\ref{ch:emission} will detail the emission measure diagnostics commonly used in coronal loop physics; in particular, how the line intensities are interpreted and how the differential emission measure (DEM) and other observables are inferred from observations. The details of the efficient hydrodynamic model used in this work will be discussed in \S\ref{ch:numerical}, with particular emphasis given to the improvements made upon previous models. Finally, \S\ref{ch:results} and \S\ref{ch:conclusions} will include the results and conclusions of our study, respectively, with comments regarding future work and improvements included in the latter. 
