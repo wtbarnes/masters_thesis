@@ -4,3 +4,73 @@
 and how they are interpreted in observational and modeling contexts
 Discuss how this is how we know anything about plasma in the solar atmosphere
 Can discuss forward modeling as well; this sets us up for the rest of the thesis}
+%
+\par In solar physics (and astrophysics in general), all observational data must be collected through \textit{remote sensing} techniques rather than \textit{in situ} measurements due to the great distances and extreme environments inherent to the discipline. This means that atomic data and spectroscopy must be used to infer properties about the coronal plasma, including the temperature and density. To a good approximation, the hot, tenuous coronal plasma is \textit{optically thin} to radiation emitted in the visible, ultraviolet (UV), and x-ray bands. This means that, between the observer and where the radiation was produced, the photons were not scattered or absorbed and reemitted. As a result, the observed radiation contains signatures of the plasma that produced it and has not been polluted by some intermediate process.
+%
+\section{Spectral Line Intensity}
+\label{sec:spectral_lines}
+%
+As discussed in \S\ref{sec:coronal_heating}, spectroscopy has been a critically important tool in solar physics since the discovery of the million-degree corona. Modern observing instruments and techniques have allowed for the collection of an unprecedented amount of data at increasingly higher spatial resolution and temporal cadence. However, interpreting this spectroscopic data in terms of useful plasma parameters (e.g. density and temperature) continues to pose a challenge to both observers and modelers alike.
+%
+\par The dominant emission mechanism in the high-temperature, low-density solar corona is \textit{bound-bound} emission,
+\begin{equation}
+	\label{eq:bound_bound}
+	X_j^{+m}\to X_i^{+m} + h\nu_{j,i},
+\end{equation}
+where $X$ represents the atomic species, $m$ is the charge state, $h$ is Planck's constant, and $\nu_{j,i}$ is the frequency of the emitted photon of energy $\Delta E_{j,i} = h\nu_{j,i}=hc/\lambda_{j,i}$, with $j$ and $i$ representing the bound and lower energy states, respectively \citep{mason_spectroscopic_1994}. The associated emissivity (power per unit volume) for the transition can then be written as 
+\begin{equation}
+	\label{eq:emissivity}
+	P(\lambda_{j,i})=N_j(X^{+m})A_{j,i}\Delta E_{j,i},
+\end{equation}
+where $N_j(X^{+m})$ is the number density of element $X$ with charge state $+m$ in excited state $j$ and $A_{j,i}$ is the Einstein spontaneous emission coefficient. Thus, the power for a given spectral line is dependent on both the number of ions of a particular charge state and the number of ions in that particular charge state who are also in an excited state \citep{mason_spectroscopic_1994,bradshaw_collisional_2013}. Finally, this volumetric power can be related to the observed line intensity as at Earth,
+\begin{equation}
+	\label{eq:intensity}
+	I(\lambda_{j,i}) = \frac{1}{4\pi R^2}\int_V \mathrm{d}V~P(\lambda_{j,i}),
+\end{equation}
+where the integral is taken over the entire sphere of radius $R$, where $R$ is the distance to the observer, and then normalized by the surface area of the sphere.
+%
+\par The next question is of course how these measured line intensities can be related to the properties of the coronal plasma. In Eq. \ref{eq:emissivity}, $A_{j,i}$ can be calculated from laboratory experiments for a given transition and $\Delta E_{j,i}$ is easily found provided $\lambda_{j,i}$ is known. The remaining quantity, $N_j(X^{+m})$ can be expressed as a series of ratios,
+\begin{equation}
+	\label{eq:density_jm}
+	N_j(X^{+m})=\frac{N_j(X^{+m})}{N(X^{+m})}\frac{N(X^{+m})}{N(X)}\frac{N(X)}{N(H)}\frac{N(H)}{N_e}N_e,
+\end{equation}
+where $N(X^{+m})$ is the number density of element $X$ in charge state $+m$, $N(X)$ is the number density of element $X$, $N(H)$ is the number density of hydrogen, and $N_e$ is the electron number density \citep{mason_spectroscopic_1994}. Note that $N_j(X^{+m})$ has just been repeatedly multiplied by one in order to reexpress it in terms of the following ratios (from left to right in Eq. \ref{eq:density_jm}): fraction of $+m$-ions in excited state $j$, fraction of $X$ atoms in charge state $+m$, relative abundance of $X$ compared to hydrogen, and relative abundance of hydrogen compared to the number of electrons. The expression can be further simplified through the definition of the relative abundance $\mathrm{Ab}_X=N(X)/N(H)$ and the common approximation $N(H)/N_e\approx0.83$.
+%
+\par Eq. \ref{eq:emissivity}, and thus Eq. \ref{eq:intensity}, can be further simplified by invoking the \textit{coronal model} approximation. In optically-thin plasmas, it can be assumed that the collisional excitation and radiative decay occur from and to the ground state, respectively; in other words $i\to g$, with g representing the ground state. Additionally, the processes which determine the excitation level and those that determine the charge state are assumed to operate on disparate enough timescales such that the changes in energy level populations of the emitting ions, occurring on short timescales, can be decoupled from the changes in the charge state, occurring on longer timescales \citep{bradshaw_collisional_2013}. Using these assumptions, statistical equilibrium between the spontaneous decay and collisional excitation processes demands
+\begin{equation}
+	\label{eq:stat_eq}
+	N_g(X^{+m})N_eC^e_{g,j} = N_j(X^{+m})A_{j,g},
+\end{equation}
+where $C^e_{g,j}$ is the electron collisional excitation rate between $g$ and $j$ \citep{bradshaw_collisional_2013}. Plugging Eqs. \ref{eq:stat_eq} and \ref{eq:density_jm} into Eq. \ref{eq:emissivity} and letting $N_g(X^{+m})\approx N(X^{+m})$ yields
+\begin{equation}
+	\label{eq:emissivity_simple}
+	P(\lambda_{j,g})=(0.83)\mathrm{Ab}_X\Delta E_{j,g}\frac{N(X^{+m})}{N(X)}C^e_{j,g}N_e^2.
+\end{equation}
+Defining the \textit{contribution function} $G(T,\lambda_{j,g})=N(X^{+m})/N(X)C^e_{j,g}$, the intensity integral can be rewritten as
+\begin{equation}
+	I(\lambda_{j,g}) = \frac{(0.83)\mathrm{Ab}_X\Delta E_{j,g}}{4\pi R^2}\int_V\mathrm{d}V~N_e^2G(T,\lambda_{j,g}).
+\end{equation}
+If the plasma is isothermal over the emitting volume $V$, $G(T,\lambda_{j,g})$ comes outside the integral such that 
+\begin{equation}
+	\label{eq:intensity_isothermal}
+	I(\lambda_{j,g}) = \frac{(0.83)\mathrm{Ab}_X\Delta E_{j,g}}{4\pi R^2}G(T,\lambda_{j,g})\mathrm{EM},
+\end{equation}
+where $\mathrm{EM}=\int_V\mathrm{d}V~N_e^2$ is the \textit{emission measure}. However, in many cases, this isothermal approximation does not hold such that the intensity integral must be expressed as 
+\begin{equation}
+	I(\lambda_{j,g}) = \frac{(0.83)\mathrm{Ab}_X\Delta E_{j,g}}{4\pi R^2}\int_V\mathrm{d}T~\phi(T)G(T,\lambda_{j,g}),
+\end{equation}
+where $\phi(T)=N_e^2\mathrm{d}V/\mathrm{d}T$ is the \textit{differential emission measure} ($\mathrm{DEM}$). 
+%%
+\section{Differential Emission Measure}
+\label{sec:dem}
+%
+\par The $\mathrm{DEM}$ and $\mathrm{EM}$ provide information about the temperature distribution of the plasma. In particular, the $\mathrm{DEM}$ is a measure of the amount of emitting material at a particular temperature $T$ in the plasma. Thus, the $\mathrm{DEM}$ is an observable that any viable theory of coronal heating should be able to predict with reasonable accuracy \citep{golub_solar_2010}.  Unfortunately, calculating these quantities from observed line intensities is difficult because of both mathematical and data availability issues. Looking back to Eq. \ref{eq:intensity_isothermal}, one can see that, provided the line intensities and contribution functions are available over a significant range of temperatures, the emission measure can be calculated algebraically. 
+%
+\par Unfortunately, 
+%
+\par \hl{Here something about emission measure scaling with temperature}
+%%
+\section{Plasma Charge State: Equilibrium and Non-equilibrium}
+\label{sec:charge_state}
+%
+\par \hl{Talk about forward modeling procedure, why it is important, how it is done, CHIANTI, hydrodynamics, some nice pictures}
