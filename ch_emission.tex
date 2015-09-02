@@ -17,7 +17,7 @@ As discussed in \S\ref{sec:coronal_heating}, spectroscopy has been a critically 
 	\label{eq:bound_bound}
 	X_j^{+m}\to X_i^{+m} + h\nu_{j,i},
 \end{equation}
-where $X$ represents the atomic species, $m$ is the charge state, $h$ is Planck's constant, and $\nu_{j,i}$ is the frequency of the emitted photon of energy $\Delta E_{j,i} = h\nu_{j,i}=hc/\lambda_{j,i}$, with $j$ and $i$ representing the bound and lower energy states, respectively \citep{mason_spectroscopic_1994}. The associated emissivity (power per unit volume) for the transition can then be written as 
+where $X$ represents the atomic species, $m$ is the charge state, $h$ is Planck's constant, and $\nu_{j,i}$ is the frequency of the emitted photon of energy $\Delta E_{j,i} = h\nu_{j,i}=hc/\lambda_{j,i}$, with $j$ and $i$ representing the bound and lower energy states, respectively \citep{mason_spectroscopic_1994}. In this process, ion $X^{+m}$ spontaneously decays from excited state $j$ to lower-energy state $i$, emitting a photon of frequency $\Delta E_{j,i}$. The associated emissivity (power per unit volume) for the transition can then be written as 
 \begin{equation}
 	\label{eq:emissivity}
 	P(\lambda_{j,i})=N_j(X^{+m})A_{j,i}\Delta E_{j,i},
@@ -53,10 +53,11 @@ Defining the \textit{contribution function} $G(T,\lambda_{j,g})=N(X^{+m})/N(X)C^
 If the plasma is isothermal over the emitting volume $V$, $G(T,\lambda_{j,g})$ comes outside the integral such that 
 \begin{equation}
 	\label{eq:intensity_isothermal}
-	I(\lambda_{j,g}) = \frac{(0.83)\mathrm{Ab}_X\Delta E_{j,g}}{4\pi R^2}G(T,\lambda_{j,g})\mathrm{EM},
+	I(\lambda_{j,g}) = \frac{(0.83)\mathrm{Ab}_X\Delta E_{j,g}}{4\pi R^2}G(T,\lambda_{j,g})\langle\mathrm{EM}\rangle,
 \end{equation}
-where $\mathrm{EM}=\int_V\mathrm{d}V~N_e^2$ is the \textit{emission measure}. However, in many cases, this isothermal approximation does not hold such that the intensity integral must be expressed as 
+where $\langle\mathrm{EM}\rangle=\int_V\mathrm{d}V~N_e^2$ is the average \textit{emission measure}. However, in many cases, this isothermal approximation does not hold such that the intensity integral must be expressed as 
 \begin{equation}
+	\label{eq:dem_integral}
 	I(\lambda_{j,g}) = \frac{(0.83)\mathrm{Ab}_X\Delta E_{j,g}}{4\pi R^2}\int_V\mathrm{d}T~\phi(T)G(T,\lambda_{j,g}),
 \end{equation}
 where $\phi(T)=N_e^2\mathrm{d}V/\mathrm{d}T$ is the \textit{differential emission measure} ($\mathrm{DEM}$). 
@@ -64,13 +65,65 @@ where $\phi(T)=N_e^2\mathrm{d}V/\mathrm{d}T$ is the \textit{differential emissio
 \section{Differential Emission Measure}
 \label{sec:dem}
 %
-\par The $\mathrm{DEM}$ and $\mathrm{EM}$ provide information about the temperature distribution of the plasma. In particular, the $\mathrm{DEM}$ is a measure of the amount of emitting material at a particular temperature $T$ in the plasma. Thus, the $\mathrm{DEM}$ is an observable that any viable theory of coronal heating should be able to predict with reasonable accuracy \citep{golub_solar_2010}.  Unfortunately, calculating these quantities from observed line intensities is difficult because of both mathematical and data availability issues. Looking back to Eq. \ref{eq:intensity_isothermal}, one can see that, provided the line intensities and contribution functions are available over a significant range of temperatures, the emission measure can be calculated algebraically. 
+\par The $\mathrm{DEM}$ and $\mathrm{EM}$ provide information about the temperature distribution of the plasma. In particular, the $\mathrm{DEM}$ is a measure of the amount of emitting material at a particular temperature $T$ in the plasma. Thus, the $\mathrm{DEM}$ is an observable that any viable theory of coronal heating should be able to predict with reasonable accuracy \citep{golub_solar_2010}. Furthermore, because the $\mathrm{DEM}$ is a one-dimensional function, it provides a simple and powerful characterization of the multi-thermal coronal plasma. Unfortunately, calculating these quantities from observed line intensities is difficult because of both mathematical and data availability issues. Looking back to Eq. \ref{eq:intensity_isothermal}, one can see that, provided the line intensities and contribution functions are available over a significant range of temperatures, the emission measure can be calculated algebraically.
 %
-\par Unfortunately, 
+\par 
 %
-\par \hl{Here something about emission measure scaling with temperature}
+\begin{figure}
+	\centering
+	\includegraphics[width=0.75\textwidth]{figures/dem_em_loci.pdf}
+	\caption{Emission measure distribution reconstruction for an active region core. The colored curves show the emission measure calculation using the $\mathrm{EM}$ loci method. The black and red histograms show the $\mathrm{DEM}(T)\mathrm{d}T$ reconstructed using the MCMC method of \citet{kashyap_markov-chain_1998}. Here, the $\mathrm{DEM}$ is multiplied by the temperature bin for comparison with the $\mathrm{EM}$ loci calculation. Image taken from \citet{warren_constraints_2011}}
+	\label{fig:dem_em_loci}
+\end{figure}
+%
+\par Unlike $\langle\mathrm{EM}\rangle$, $\phi(T)$ cannot be determined algebraically; instead, Eq. \ref{eq:dem_integral}, a Fredholm equation of the first kind, must be inverted to find $\phi(T)$, a task that poses well-known mathematical difficulties \citep{kashyap_markov-chain_1998}. One method for performing such an inversion is a discretization of Eq. \ref{eq:dem_integral}
+\begin{equation}
+	\label{eq:disc_dem_integral}
+	I_j = \frac{(0.83)\mathrm{Ab}_X\Delta E_j}{4\pi R^2}\sum_{k=1}^N\phi_k\int^{T_{k+1}}_{T_k}\mathrm{d}T~G_j(T),
+\end{equation}
+where $j$ labels the spectral line and $[T_{k+1},T_k]$ is the temperature interval over which $\phi_k$ is constant. For each measured line intensity $I_j$, $\phi_k$ for $1\le k\le N$ are determined through some minimization procedure \citep{landi_monte_2012}. To calculate the $\mathrm{DEM}$ curve, an arbitrary spline or polynomial is first assumed; subsequent corrections at $T_{eff,j}$, the temperature of maximum abundance for the line intensity $I_j$, are then calculated and a spline interpolation applied to these corrections for the entire temperature range $[T_1,T_N]$. This correction is then applied to initial curve and the corrected curve is used as the initial $\mathrm{DEM}$ on the next iteration \citep{landi_monte_2012}. This method of course has the disadvantage that a functional form for the $\mathrm{DEM}$ must be chosen \textit{a priori}, biasing the temperature distribution. Additionally, a poor choice of temperature interval in Eq. \ref{eq:disc_dem_integral} can oversmooth the $\mathrm{DEM}$ curve or cause convergence issues.
+%
+%\hl{Here something about emission measure scaling with temperature + observational results supporting + simulation results supporting + introduce hot emission}
+\par From these emission measure distributions, simple observables can be calculated that any viable heating model should be able to produce. The most popular of these observables is the well-known scaling between the emission measure and the temperature, 
+\begin{equation}
+	\mathrm{EM}\propto T^a.
+\end{equation}
+This scaling, first proposed by \citet{jordan_energy_1980}, has since been validated by both simulation and observation. A summary of model and observational results for the $a$ parameter can be found in Table \ref{tab:em_scalings}.
+%
+\begin{table}
+	\centering
+	\caption{Summary of emission measure scalings from observational and modeling studies. Scalings are typically calculated coolward of the emission measure peak and typically range from 2 to 5. Adapted from \citet{bradshaw_diagnosing_2012}.\label{tab:em_scalings}}
+	\begin{tabular}{L{4cm} l l l}
+		\hline\hline
+		Slopes, $a$ & Range of $\log{T}$ & Type & Reference \\
+		\hline
+		3.26 & 6.00-6.60 & observation & \citet{warren_constraints_2011} \\
+		2.17 &  & model & \\
+		\hline
+		3.20 & 6.00-6.50 & observation & \citet{winebarger_using_2011} \\
+		\hline
+		2.08-2.47 \\ (background) & 5.50-6.55 & observation & \citet{tripathi_emission_2011} \\
+		2.05-2.70 \\ (background subtracted) &  &  & \\
+		\hline
+		1.60-2.00 \\ (photospheric abundances) & 6.00-[6.60-6.80] & model & \citet{mulu-moore_can_2011} \\
+		2.00-2.30 \\ (coronal abundances) &  &  & \\
+		\hline
+		1.70-4.50 & 6.00-6.60 & observation & \citet{warren_systematic_2012} \\ 
+		\hline
+		1.91-5.17 & 6.00-[6.30,6.80] & observation & \citet{schmelz_cold_2012} \\
+		\hline
+		0.58-2.24 \\ (low-frequency nanoflares) & 6.00-$\log{T_{peak}}$ & model & \citet{bradshaw_diagnosing_2012} \\
+		\hline
+		0.79-3.65 \\ (nanoflare trains) & 6.00-$\log{T_{peak}}$ & model & \citet{reep_diagnosing_2013} \\
+		\hline
+		$\sim2-\sim7$ \\ (low- to high-frequency heating) & [6.00-6.25]-$\log{T_{peak}}$ & model & \citet{cargill_active_2014} \\
+		\hline
+	\end{tabular}
+\end{table}
 %%
 \section{Plasma Charge State: Equilibrium and Non-equilibrium}
 \label{sec:charge_state}
 %
 \par \hl{Talk about forward modeling procedure, why it is important, how it is done, CHIANTI, hydrodynamics, some nice pictures}
+%
+%%
