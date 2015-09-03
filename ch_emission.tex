@@ -67,30 +67,46 @@ where $\phi(T)=N_e^2\mathrm{d}V/\mathrm{d}T$ is the \textit{differential emissio
 %
 \par The $\mathrm{DEM}$ and $\mathrm{EM}$ provide information about the temperature distribution of the plasma. In particular, the $\mathrm{DEM}$ is a measure of the amount of emitting material at a particular temperature $T$ in the plasma. Thus, the $\mathrm{DEM}$ is an observable that any viable theory of coronal heating should be able to predict with reasonable accuracy \citep{golub_solar_2010}. Furthermore, because the $\mathrm{DEM}$ is a one-dimensional function, it provides a simple and powerful characterization of the multi-thermal coronal plasma. Unfortunately, calculating these quantities from observed line intensities is difficult because of both mathematical and data availability issues. Looking back to Eq. \ref{eq:intensity_isothermal}, one can see that, provided the line intensities and contribution functions are available over a significant range of temperatures, the emission measure can be calculated algebraically.
 %
-\par 
+\subsection{Reconstruction Techniques}
+\label{subsec:reconstruction}
 %
-\begin{figure}
+\par If the plasma is assumed to be approximately isothermal over the emitting volume, say at temperature $T_C$, the contribution function can be taken outside of the integral as in Eq. \ref{eq:intensity_isothermal}. Furthermore, if the plasma is assumed to have a constant density over the emitting volume as well, then $\langle\mathrm{EM}\rangle\approx N_e^2V$. To determine the $T_C$, the temperature of the plasma, the emission measure for each spectral line is calculated over the appropriate temperature range,
+\begin{equation}
+	\label{eq:em_loci}
+	\langle\mathrm{EM}(T)\rangle=4\pi R^2\frac{I_j}{(0.83)\mathrm{Ab}_X\Delta E_jG_j(T,N_e)},
+\end{equation}
+where the contribution function $G$ for a particular spectral line $j$ at temperature $T$ and density $N_e$ can be calculated using the CHIANTI atomic database \citep{dere_chianti_1997,landi_chiantiatomic_2013}. Typically, this procedure is done for a sufficiently large sample of observed spectral line intensities and the corresponding $\langle\mathrm{EM}(T)\rangle$ curves plotted on top of each other. Because of the isothermal assumption, these curves should intersect at a common point, $(T_C,\langle\mathrm{EM}(T_C)\rangle)$ \citep{landi_chianti-atomic_2002}. Of course this isothermal condition is never actually met; thus, all curves tend to meet in a region of intersection. The more multithermal the plasma is, the broader the region of intersection will be and, consequentially, the value of $T_C$ will be less constrained, leading to indeterminate measurements of the plasma temperature. An example for a simulated data set with a very narrow temperature distribution and thus a well-determined value of $T_C$ is shown in Fig. \ref{fig:em_loci_example}. 
+%
+\begin{figure}[ht]
 	\centering
+	\subfigure[]{%
+	\includegraphics[width=0.8\textwidth]{figures/em_loci.pdf}
+	\label{fig:em_loci_example}}
+	\subfigure[]{%
 	\includegraphics[width=0.75\textwidth]{figures/dem_em_loci.pdf}
-	\caption{Emission measure distribution reconstruction for an active region core. The colored curves show the emission measure calculation using the $\mathrm{EM}$ loci method. The black and red histograms show the $\mathrm{DEM}(T)\mathrm{d}T$ reconstructed using the MCMC method of \citet{kashyap_markov-chain_1998}. Here, the $\mathrm{DEM}$ is multiplied by the temperature bin for comparison with the $\mathrm{EM}$ loci calculation. Image taken from \citet{warren_constraints_2011}}
-	\label{fig:dem_em_loci}
+	\label{fig:dem_example}}
+	\caption{\textbf{(a)} Simulated $\mathrm{DEM}$ curve and the resulting $\mathrm{EM}$ loci reconstruction. From the $\mathrm{DEM}$ curve, the plasma is approximately isothermal, being sharply peaked about 1 MK. Correspondingly, the $\mathrm{EM}$ loci curves intersect in a region centered on 1 MK, allowing for a well-constrained determination of $T_C$. Image taken from \citet{landi_isothermality_2010}. \textbf{(b)} Emission measure distribution reconstruction for an active region core. The colored curves show the emission measure calculation using the $\mathrm{EM}$ loci method. The black and red histograms show the $\mathrm{DEM}(T)\mathrm{d}T$ reconstructed using the MCMC method of \citet{kashyap_markov-chain_1998}. Here, the $\mathrm{DEM}$ is multiplied by the temperature bin for comparison with the $\mathrm{EM}$ loci calculation. Image taken from \citet{warren_constraints_2011}}
+	\label{fig:dem_em_loci_example}
 \end{figure}
 %
-\par Unlike $\langle\mathrm{EM}\rangle$, $\phi(T)$ cannot be determined algebraically; instead, Eq. \ref{eq:dem_integral}, a Fredholm equation of the first kind, must be inverted to find $\phi(T)$, a task that poses well-known mathematical difficulties \citep{kashyap_markov-chain_1998}. One method for performing such an inversion is a discretization of Eq. \ref{eq:dem_integral}
+\par Relaxing the isothermal assumption introduces a great deal more complexity. Unlike $\langle\mathrm{EM}\rangle$, $\phi(T)$ cannot be determined algebraically; instead, Eq. \ref{eq:dem_integral}, a Fredholm equation of the first kind, must be inverted to find $\phi(T)$, a task that poses well-known mathematical difficulties \citep{kashyap_markov-chain_1998}. One method for performing such an inversion is a discretization of Eq. \ref{eq:dem_integral}
 \begin{equation}
 	\label{eq:disc_dem_integral}
 	I_j = \frac{(0.83)\mathrm{Ab}_X\Delta E_j}{4\pi R^2}\sum_{k=1}^N\phi_k\int^{T_{k+1}}_{T_k}\mathrm{d}T~G_j(T),
 \end{equation}
-where $j$ labels the spectral line and $[T_{k+1},T_k]$ is the temperature interval over which $\phi_k$ is constant. For each measured line intensity $I_j$, $\phi_k$ for $1\le k\le N$ are determined through some minimization procedure \citep{landi_monte_2012}. To calculate the $\mathrm{DEM}$ curve, an arbitrary spline or polynomial is first assumed; subsequent corrections at $T_{eff,j}$, the temperature of maximum abundance for the line intensity $I_j$, are then calculated and a spline interpolation applied to these corrections for the entire temperature range $[T_1,T_N]$. This correction is then applied to initial curve and the corrected curve is used as the initial $\mathrm{DEM}$ on the next iteration \citep{landi_monte_2012}. This method of course has the disadvantage that a functional form for the $\mathrm{DEM}$ must be chosen \textit{a priori}, biasing the temperature distribution. Additionally, a poor choice of temperature interval in Eq. \ref{eq:disc_dem_integral} can oversmooth the $\mathrm{DEM}$ curve or cause convergence issues.
+where $j$ labels the spectral line and $[T_{k+1},T_k]$ is the temperature interval over which $\phi_k$ is constant. For each measured line intensity $I_j$, $\phi_k$ for $1\le k\le N$ are determined through some minimization procedure \citep{landi_monte_2012}. To calculate the $\mathrm{DEM}$ curve, an arbitrary spline or polynomial is first assumed; subsequent corrections at $T_{eff,j}$, the temperature of maximum abundance for the line intensity $I_j$, are then calculated and a spline interpolation applied to these corrections for the entire temperature range $[T_1,T_N]$. This correction is then applied to initial curve and the corrected curve is used as the initial $\mathrm{DEM}$ on the next iteration \citep{landi_monte_2012}. This method of course has the disadvantage that a functional form for the $\mathrm{DEM}$ must be chosen \textit{a priori}, biasing the temperature distribution. Additionally, a poor choice of temperature interval in Eq. \ref{eq:disc_dem_integral} can oversmooth the $\mathrm{DEM}$ curve or cause convergence issues. \hl{quickly summarize the MCMC method, maybe need new paragraph.}
+%
+\subsection{Scaling Laws}
+\label{subsec:scaling}
 %
 %\hl{Here something about emission measure scaling with temperature + observational results supporting + simulation results supporting + introduce hot emission}
 \par From these emission measure distributions, simple observables can be calculated that any viable heating model should be able to produce. The most popular of these observables is the well-known scaling between the emission measure and the temperature, 
 \begin{equation}
 	\mathrm{EM}\propto T^a.
 \end{equation}
-This scaling, first proposed by \citet{jordan_energy_1980}, has since been validated by both simulation and observation. A summary of model and observational results for the $a$ parameter can be found in Table \ref{tab:em_scalings}.
+This scaling, first proposed by \citet{jordan_energy_1980}, has since been validated by both simulation and observation. A summary of model and observational results for the $a$ parameter can be found in Table \ref{tab:em_scalings}. Looking at the sample emission measure distributions in Fig. \ref{fig:dem_em_loci_example}, it can be seen that, for isothermal (Fig. \ref{fig:em_loci_example}) and multithermal (Fig. \ref{fig:dem_example}) plasmas, the emission measure distribution tends to be strongly peaked. When determining the scaling parameter $a$, it is common perform a linear fit in $(\log{T},\log{\mathrm{EM}})$ coolward of the peak, typically between 6.0 and $\log{T_{peak}}$, where $T_{peak}$ is the temperature at which $\mathrm{EM}_{max}$ occurs. Observations of the inter-moss regions of active region cores, where the emission is less likely to be contaminated by transition region lines, indicate that $2\lesssim a\lesssim5$. Table \ref{tab:em_scalings} summarizes these findings. This large range of values is most likely due to both uncertainties in the atomic data as well as the variety of techniques used to reconstruct the emission measure distribution (see \S\ref{subsec:reconstruction}). These scalings have also been studied in the context of simulation. \hl{mulu-moore,bradshaw,reep summarize briefly}. Additionally, \citet{cargill_active_2014} showed that $a$ can vary from 2 to greater than 5 depending on the heating frequency, whether the heating spectrum follows a power-law, and how the heating scales with the time between successive heating events.
 %
-\begin{table}
+\begin{table}[ht]
 	\centering
 	\caption{Summary of emission measure scalings from observational and modeling studies. Scalings are typically calculated coolward of the emission measure peak and typically range from 2 to 5. Adapted from \citet{bradshaw_diagnosing_2012}.\label{tab:em_scalings}}
 	\begin{tabular}{L{4cm} l l l}
@@ -120,8 +136,11 @@ This scaling, first proposed by \citet{jordan_energy_1980}, has since been valid
 		\hline
 	\end{tabular}
 \end{table}
+%
+\par \hl{paragraph about scaling hotward of the peak and why this is important for nanoflare heating}
+%
 %%
-\section{Plasma Charge State: Equilibrium and Non-equilibrium}
+\section{Forward Modeling}
 \label{sec:charge_state}
 %
 \par \hl{Talk about forward modeling procedure, why it is important, how it is done, CHIANTI, hydrodynamics, some nice pictures}
