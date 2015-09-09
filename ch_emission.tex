@@ -1,16 +1,12 @@
 \chapter{Emission Diagnostics}
 \label{ch:emission}
-\hl{This chapter will discuss emission measure (EM), differential EM (DEM), line intensities etc.
-and how they are interpreted in observational and modeling contexts
-Discuss how this is how we know anything about plasma in the solar atmosphere
-Can discuss forward modeling as well; this sets us up for the rest of the thesis}
 %
 \par In solar physics (and astrophysics in general), all observational data must be collected through \textit{remote sensing} techniques rather than \textit{in situ} measurements due to the great distances and extreme environments inherent to the discipline. This means that atomic data and spectroscopy must be used to infer properties about the coronal plasma, including the temperature and density. To a good approximation, the hot, tenuous coronal plasma is \textit{optically thin} to radiation emitted in the visible, ultraviolet (UV), and x-ray bands. This means that, between the observer and where the radiation was produced, the photons were not scattered or absorbed and reemitted. As a result, the observed radiation contains signatures of the plasma that produced it and has not been polluted by some intermediate process.
 %
 \section{Spectral Line Intensity}
 \label{sec:spectral_lines}
 %
-As discussed in \S\ref{sec:coronal_heating}, spectroscopy has been a critically important tool in solar physics since the discovery of the million-degree corona. Modern observing instruments and techniques have allowed for the collection of an unprecedented amount of data at increasingly higher spatial resolution and temporal cadence. However, interpreting this spectroscopic data in terms of useful plasma parameters (e.g. density and temperature) continues to pose a challenge to both observers and modelers alike.
+\par As discussed in \S\ref{sec:coronal_heating}, spectroscopy has been a critically important tool in solar physics since the discovery of the million-degree corona. Modern observing instruments and techniques have allowed for the collection of an unprecedented amount of data at increasingly higher spatial resolution and temporal cadence. However, interpreting this spectroscopic data in terms of useful plasma parameters (e.g. density and temperature) continues to pose a challenge to both observers and modelers alike.
 %
 \par The dominant emission mechanism in the high-temperature, low-density solar corona is \textit{bound-bound} emission,
 \begin{equation}
@@ -83,9 +79,9 @@ where the contribution function $G$ for a particular spectral line $j$ at temper
 	\includegraphics[width=0.8\textwidth]{figures/em_loci.pdf}
 	\label{fig:em_loci_example}}
 	\subfigure[]{%
-	\includegraphics[width=0.75\textwidth]{figures/dem_em_loci.pdf}
+	\includegraphics[width=0.75\textwidth]{figures/dem_em_loci_fits.pdf}
 	\label{fig:dem_example}}
-	\caption{\textbf{(a)} Simulated $\mathrm{DEM}$ curve and the resulting $\mathrm{EM}$ loci reconstruction. From the $\mathrm{DEM}$ curve, the plasma is approximately isothermal, being sharply peaked about 1 MK. Correspondingly, the $\mathrm{EM}$ loci curves intersect in a region centered on 1 MK, allowing for a well-constrained determination of $T_C$. Image taken from \citet{landi_isothermality_2010}. \textbf{(b)} Emission measure distribution reconstruction for an active region core. The colored curves show the emission measure calculation using the $\mathrm{EM}$ loci method. The black and red histograms show the $\mathrm{DEM}(T)\mathrm{d}T$ reconstructed using the MCMC method of \citet{kashyap_markov-chain_1998}. Here, the $\mathrm{DEM}$ is multiplied by the temperature bin for comparison with the $\mathrm{EM}$ loci calculation. Image taken from \citet{warren_constraints_2011}}
+	\caption{\textbf{(a)} Simulated $\mathrm{DEM}$ curve and the resulting $\mathrm{EM}$ loci reconstruction. From the $\mathrm{DEM}$ curve, the plasma is approximately isothermal, being sharply peaked about 1 MK. Correspondingly, the $\mathrm{EM}$ loci curves intersect in a region centered on 1 MK, allowing for a well-constrained determination of $T_C$. Image taken from \citet{landi_isothermality_2010}. \textbf{(b)} Emission measure distribution reconstruction for an active region core. The colored curves show the emission measure calculation using the $\mathrm{EM}$ loci method. The black and red histograms show the $\mathrm{DEM}(T)\mathrm{d}T$ reconstructed using the MCMC method of \citet{kashyap_markov-chain_1998}. Here, the $\mathrm{DEM}$ is multiplied by the temperature bin for comparison with the $\mathrm{EM}$ loci calculation. The yellow lines to the left and right of the peak show the cool and hot slope fits in the ranges $6.0<\log{T}<6.6$ and $6.6<\log{T}<7.0,$ respectively. Image taken from \citet{warren_systematic_2012}}
 	\label{fig:dem_em_loci_example}
 \end{figure}
 %
@@ -101,7 +97,6 @@ where $j$ labels the spectral line and $[T_{k+1},T_k]$ is the temperature interv
 \subsection{Scaling Laws}
 \label{subsec:scaling}
 %
-%\hl{Here something about emission measure scaling with temperature + observational results supporting + simulation results supporting + introduce hot emission}
 \par From these emission measure distributions, simple observables can be calculated that any viable heating model should be able to produce. The most popular of these observables is the well-known scaling between the emission measure and the temperature, 
 \begin{equation}
 	\mathrm{EM}\propto T^a.
@@ -141,12 +136,22 @@ This scaling, first proposed by \citet{jordan_energy_1980}, has since been valid
 	\end{tabular}
 \end{table}
 %
-\par \hl{paragraph about scaling hotward of the peak and why this is important for nanoflare heating; briefly talk about model emission measure versus forward modeling or observed emission measure to lead into forward modeling section}
+\par As discussed in \S\ref{subsec:dc_heating}, nanoflares, short heating events on the order of $10^{24}$ ergs, are a plausible explanation for observed million-degree coronal temperatures. One strategy for testing and constraining this theory is to analyze modeled and observed emission measure distributions for signatures of impulsive heating. As with the cool emission, the hot emission is also often characterized by an emission measure slope. Typically, this linear fit on $\log{T},\log{EM}$ is done ``hotward'' of the peak, usually in the range $6.0\lesssim\log{T}\lesssim7.2$. However, measured values of these hotward slopes are poorly constrained due to both the magnitude of emission and the lack of available spectroscopic data in this temperature range. \citet{warren_systematic_2012}, using spectral measurements from \textit{Hinode}/EIS, provided hotward fits for $\mathrm{EM}$ reconstructions for a large number of active regions. All measured slopes fell in the range $6.1<|a_{hot}|<10.3$, with large uncertainties on each hotward fit. Examples of both a hotward and coolward fit on a reconstructed $\mathrm{EM}$ are shown in Fig. 
+%
+\subsection{Observational Difficulties}
+\label{subsec:observational_difficulties}
+%
+\par \citet{cargill_implications_1994,cargill_nanoflare_2004} have predicted that emission measure distributions resulting from nanoflare models should be wide and have a faint, high-temperature ($>4\times10^6$ K) component and thus a steep hotward slope. Unfortunately, observing this high-temperature emission is difficult and in some cases impossible. The reason for this difficulty is twofold. First, thermal conduction is a very efficient cooling mechanism at high temperatures and large spatial temperature gradients. Thus, because the increase in density lags the increase in temperature due to heating and because $\mathrm{EM}\propto n^2$, by the time sufficient densities are acheived, the plasma has cooled down such that the fingerprints of nanoflare heating have been smoothed out. 
+%
+\par The second reason for this difficulty is non-equilibrium ionization. It is usually assumed that the observed line intensities, because of their known formation temperatures, are a direct indicator of the plasma temperature. However, if the heating timescale is shorter than the ionization timescale, the time it takes for the ion population to settle into the correct charge state, an equilibrium assumption can lead to a misdiagnosis of the plasma temperature. This makes signatures of hot, nanoflare-heated plasma especially difficult to detect if the high temperatures persist for less than the ionization timescale \citep{bradshaw_explosive_2006,bradshaw_what_2011,reale_nonequilibrium_2008}.
+%
+\par Despite these difficulties, various attempts have been made to observe this faint high-temperature emission, the so-called ``smoking gun'' of coronal nanoflares. Using the broadband X-Ray Telescope (XRT) aboard the \textit{Hinode} spacecraft, \citet{schmelz_hinode_2009} and \citet{reale_evidence_2009} show a faint hot component in the reconstructed $\mathrm{DEM}$ curves. However, since the channels on such broadband instruments can often be polluted by low-temperature emission, the reliability of such measurements depends on the filtering technique used. Additionally, \citet{winebarger_defining_2012} showed that combinations of \textit{Hinode}/EIS and \textit{Hinode}/XRT measurements leave a ``blind spot'' in the $\mathrm{EM}-T$ space conincident with where evidence for nanoflare heating is likely to be found. Unambiguous observational evidence of nanoflare heating must come from pure spectroscopic measurements \citep[see][]{brosius_pervasive_2014}. Missions like the Marshall Grazing Incidence X-ray Spectrometer (MaGIXS) \citep{kobayashi_marshall_2011,winebarger_new_2014}, with a wavelength range of 6-24 \ang and a temperature range of $6.2<\log{T}<7.2$, aim to probe this previously poorly-resolved portion of the coronal spectrum in hopes of better quantifying the presence of faint, high-temperature plasma.
 %
 %%
 \section{Forward Modeling}
 \label{sec:charge_state}
 %
-\par \hl{Talk about forward modeling procedure, why it is important, how it is done, CHIANTI, hydrodynamics, some nice pictures}
+%\hl{Talk about forward modeling procedure, why it is important, how it is done, CHIANTI, hydrodynamics, some nice pictures}
+\par 
 %
 %%
