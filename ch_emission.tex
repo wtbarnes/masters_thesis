@@ -73,13 +73,13 @@ where $\phi(T)=N_e^2\mathrm{d}V/\mathrm{d}T$ is the \textit{differential emissio
 \end{equation}
 where the contribution function $G$ for a particular spectral line $j$ at temperature $T$ and density $N_e$ can be calculated using the CHIANTI atomic database \citep{dere_chianti_1997,landi_chiantiatomic_2013}. Typically, this procedure is done for a sufficiently large sample of observed spectral line intensities and the corresponding $\langle\mathrm{EM}(T)\rangle$ curves plotted on top of each other. Because of the isothermal assumption, these curves should intersect at a common point, $(T_C,\langle\mathrm{EM}(T_C)\rangle)$ \citep{landi_chianti-atomic_2002}. Of course this isothermal condition is never actually met; thus, all curves tend to meet in a region of intersection. The more multithermal the plasma is, the broader the region of intersection will be and, consequentially, the value of $T_C$ will be less constrained, leading to indeterminate measurements of the plasma temperature. An example for a simulated data set with a very narrow temperature distribution and thus a well-determined value of $T_C$ is shown in Fig. \ref{fig:em_loci_example}. 
 %
-\begin{figure}[ht]
+\begin{figure}[]
 	\centering
 	\subfigure[]{%
-	\includegraphics[width=0.8\textwidth]{figures/em_loci.pdf}
+	\includegraphics[width=0.9\textwidth]{figures/em_loci.pdf}
 	\label{fig:em_loci_example}}
 	\subfigure[]{%
-	\includegraphics[width=0.75\textwidth]{figures/dem_em_loci_fits.pdf}
+	\includegraphics[width=0.65\textwidth]{figures/dem_em_loci_fits.pdf}
 	\label{fig:dem_example}}
 	\caption{\textbf{(a)} Simulated $\mathrm{DEM}$ curve and the resulting $\mathrm{EM}$ loci reconstruction. From the $\mathrm{DEM}$ curve, the plasma is approximately isothermal, being sharply peaked about 1 MK. Correspondingly, the $\mathrm{EM}$ loci curves intersect in a region centered on 1 MK, allowing for a well-constrained determination of $T_C$. Image taken from \citet{landi_isothermality_2010}. \textbf{(b)} Emission measure distribution reconstruction for an active region core. The colored curves show the emission measure calculation using the $\mathrm{EM}$ loci method. The black and red histograms show the $\mathrm{DEM}(T)\mathrm{d}T$ reconstructed using the MCMC method of \citet{kashyap_markov-chain_1998}. Here, the $\mathrm{DEM}$ is multiplied by the temperature bin for comparison with the $\mathrm{EM}$ loci calculation. The yellow lines to the left and right of the peak show the cool and hot slope fits in the ranges $6.0<\log{T}<6.6$ and $6.6<\log{T}<7.0,$ respectively. Image taken from \citet{warren_systematic_2012}}
 	\label{fig:dem_em_loci_example}
@@ -105,7 +105,7 @@ This scaling, first proposed by \citet{jordan_energy_1980}, has since been valid
 %
 \par These scalings have also recently been studied in the context of simulation. \citet{mulu-moore_can_2011}, using a 1D hydrodynamic model, constructed emission measure distributions for a $3\times3$ parameter space of loop length and equilibrium temperature using a single impulsive heating function. They found that this ``long nanoflare storm'' heating scenario, in which impulsive heating events occur infrequently on sub-resolution strands, produced emission measure slopes that were too small to adequately account for observations. Using an advanced forward modeling technique and a different 1D hydrodynamic model, \citet{bradshaw_diagnosing_2012} and \citet{reep_diagnosing_2013} investigated the effect of low-frequency and high-frequency nanoflare heating, respectively, on the resulting emission measure. \citet{bradshaw_diagnosing_2012} found that low-frequency heating could not account for the entire range of observed emission measure slopes while \citet{reep_diagnosing_2013} showed high-frequency heating could. Additionally, \citet{cargill_active_2014}, using an efficient ``0D'' hydrodynamic simulation (see \S\ref{sec:ebtel}), showed that $a$ can vary from 2 to greater than 5 depending on the heating frequency, whether the heating spectrum follows a power-law, and how the heating scales with the time between successive heating events.
 %
-\begin{table}[ht]
+\begin{table}[]
 	\centering
 	\caption{Summary of emission measure scalings from observational and modeling studies. Scalings are typically calculated coolward of the emission measure peak and typically range from 2 to 5. Adapted from \citet{bradshaw_diagnosing_2012}.\label{tab:em_scalings}}
 	\begin{tabular}{L{4cm} l l l}
@@ -152,6 +152,33 @@ This scaling, first proposed by \citet{jordan_energy_1980}, has since been valid
 \label{sec:charge_state}
 %
 %\hl{Talk about forward modeling procedure, why it is important, how it is done, CHIANTI, hydrodynamics, some nice pictures}
-\par 
+\par As discussed in \S\ref{sec:spectral_lines} and \S\ref{sec:dem}, interpreting observational results involves many assumptions and can potentially lead to misleading physical conclusions. Forward modeling, the calculation of observables from simulations, helps to cut out many of the assumptions often used when converting results from a particular instrument to interpretable observations. These simulated observables can then be directly compared to real observations. Additionally, forward modeling is also useful in the design of new instrumentation. If an instrument is being designed to observe a specific phenomenon (e.g. nanoflare heating), it should be designed such that its sensitivity corresponds to the regime in which such a phenomenon can be observed. Forward modeling techniques can be used to simulate the specific physical event and then map the results to the specified detector geometry in order to determine what equipment is necessary in order to capture a signal from the specified event.
 %
+\par Because of the wealth of data available to solar physicists, forward modeling is an invaluable tool, particularly in the study of coronal heating. For example, in an effort to diagnose what signal AIA/SDO would observe, given an impulsive heating event in an active region, \citet{bradshaw_what_2011} used the HYDRAD model \citep{bradshaw_influence_2013} to calculate temperature and density profiles as a function of time and loop coordinate, $T(s,t)$ and $n(s,t)$ for a variety of loop lengths, event durations and event amplitudes. These $T$ and $n$ values are then mapped from the loop geometry to the detector geometry as shown in Fig. \ref{fig:loop_detector_geom}. The observed intensity as a function of $s$ and $t$ in units of data numbers per pixel per second can then be calculated as
+\begin{equation}
+	\mathcal{I}(\lambda,n,T)=\frac{(0.83)\times\mathrm{IR}(\lambda)\times\mathrm{Ab}_X\times X_i\times\epsilon(\lambda,n,T)\times(\mathrm{EM}_{pix}/A_{pix})}{4\pi\times(hc/\lambda)},
+	\label{eq:fm_intensity}
+\end{equation}
+where $\mathrm{IR}(\lambda)$ is the instrument response function, $X_i$ is the population fraction of charge state $i$ of element $X$, $\epsilon$ is the emissivity of the line calculated using the CHIANTI atomic database and associated routines, $\mathrm{EM}_{pix}$ is the emission measure in the particular pixel, and $A_{pix}$ is the area of the pixel \citep{bradshaw_what_2011}.
+%
+\par When forward-modeling intensity in an impulsive heating scenario, $X_i$ is one of the most critical quantites. Higher charge states are created through collisional ionization. The charge state varies strongly with the temperature and weakly with the density; at higher kinetic energies (i.e. temperatures), free electrons are capable of ionizing even inner, strongly-bound electrons leading to higher charge states while at low kinetic energies, electrons are more easily captured in the outer bound states, leading to lower charge states \citep{bradshaw_collisional_2013}. The ionization state is determined by the equation
+\begin{equation}
+	\frac{\partial X_i}{\partial t} + \frac{\partial(X_iv)}{\partial s} = n(I_{i-1}X_{i-1} + R_iY_{i+1} - I_iX_i - R_{i-1}Y_i),
+	\label{eq:ionization_state}
+\end{equation}
+where $v$ is the bulk flow velocity and $I_i$ and $R_i$ are the ionization and recombination rates for charge state $i$, respectively. Setting the lefthand side to zero amounts to assuming equilibrium ionization. However, in an impulsive heating scenario, the temperature changes so fast that there is a lag between the electron temperature and the temperature represented by spectral line emission. This is a consequence of the finite time that it takes for the ionization state to reach equilibrium. Solving Eq. \ref{eq:ionization_state} for a nonzero lefthand side allows one to properly take into account effects due to non-equilibrium ionization and thus correctly forward model emission from an impulsively-heated coronal loop. Fig. \ref{fig:fm_spectra} shows how the assumption of ionization equilibrium can affect the observed intensity, especially in the case of hot plasma, one of the most important signatures of nanoflare heating.
+%
+\begin{figure}[]
+	\centering
+	\subfigure[]{%
+	\includegraphics[width=0.4\textwidth]{figures/loop_detector_geom.pdf}
+	\label{fig:loop_detector_geom}}
+	\subfigure[]{%
+	\includegraphics[width=0.55\textwidth]{figures/forward_model.pdf}
+	\label{fig:fm_spectra}}
+	\caption{\textbf{(a)} Diagram showing how the loop parameters are mapped to the detector geometry. More emission is concentrated at the ends of the detector array because of the curvature of the loop. \textbf{(b)} Plot of forward-modeled intensity as a function of loop coordinate as observed by the 131 \ang channel of SDO/AIA. The upper and lower solid curves represent the total and hot-only emission assuming equilibrium ionization. The dashed curves correspond to non-equilibrium ionization. Both images taken from \citet{bradshaw_what_2011}.}
+	\label{fig:forward_modeling}
+\end{figure}
+%
+\par This thesis will study the effect of differing loop and heating parameters, such as event duration, amplitude distribution, and event frequency, on the resulting emission measure distribution. The emission measure will be calculated using the simple expression $\mathrm{EM}\mathrm{d}T=n^2L$, where $L$ is the loop length, rather than one of the reconstruction methods described in \S\ref{sec:dem}. In this way, the emission measure calculated here is the ground truth. In other word, effects due to observing or analysis techniques are not considered. Observables are then calculated by performing a linear fit on both the hotward and coolward slopes. Particular emphasis will be placed on the hotward slope calculations as few authors have concentrated on this portion of the emission measure distribution. Additionally, this portion of the plasma emission measure is also believed to characterize the properties of an impulsive coronal heating mechanism. Comparisons will be made to values reported in previous numerical studies and observational surveys.
 %%
