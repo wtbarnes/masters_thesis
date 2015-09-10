@@ -8,6 +8,7 @@
 \usepackage{indentfirst}
 \usepackage{array}
 \usepackage{setspace}
+\usepackage[nottoc,notlot,notlof]{tocbibind}
 %subpackages for marking up changes
 \usepackage{soul,color}
 \usepackage[footnotesize]{caption}
@@ -25,6 +26,7 @@
 %--Efficient Two-fluid Hydrodynamic Simulations of Impulsively Heated Coronal Loops
 %--Surveying Emission Measure Diagnostics in Impulsively Heated Coronal Loops through Efficient Two-fluid Hydrodynamic Simulations
 
+%title,author,institution,degree
 \title{Efficient Two-fluid Hydrodynamic Simulations of Impulsively Heated Coronal Loops}
 \ctitle{Efficient Two-fluid Hydrodynamic Simulations of Impulsively Heated Coronal Loops}
 \author{Will T. Barnes}
@@ -32,6 +34,7 @@
 \school{Rice University}
 \degree{Master of Science}
 
+%committee members
 \committee {
         Stephen J. Bradshaw, Chair \\
         Assistant Professor of Physics and Astronomy \and
@@ -41,44 +44,45 @@
         Professor of Physics and Astronomy
 }
 
+%location and address
 \address{Houston, Texas}
 \donemonth{December} \doneyear{2015} \makeindex
+
+%document
 \begin{document}
+	%frontmatter/preamble
+	\begin{frontmatter}
+		\pagenumbering{roman}
+		%\makecover
+		\maketitle
+		\include{abstract}
+		%\include{ack}
+		{%\singlespacing
+		 \tableofcontents
+		 \listoffigures
+		 \listoftables
+		}
+		%\include{ded}
+	\end{frontmatter}
+	
+	%additional options for thesis body
+	\pagenumbering{arabic}
+	\linespacing{2.0}
 
-  \begin{frontmatter}
-   \pagenumbering{roman}
-   %\makecover
-   \maketitle
-   \include{abstract}
-   %\include{ack}
-   {%\singlespacing
-   \tableofcontents
-   \listoffigures
-   \listoftables
-	}
-   %   \include{ded}
-  \end{frontmatter}
-\pagenumbering{arabic}
+	%chapters
+	\include{ch_intro}
+	\include{ch_coronal_loops}
+	\include{ch_emission}
+	\include{ch_numerical}
+	\include{ch_results}
+	\include{ch_conclusions}
 
-\linespacing{2.0}
+	%appendices
+	\appendix
+	\include{append}
+	\include{append-b}
 
-\include{ch_intro}
-\include{ch_coronal_loops}
-\include{ch_emission}
-\include{ch_numerical}
-\include{ch_results}
-\include{ch_conclusions}
+	%references
+	\include{references}
 
-\appendix
-
-%\include{append-a}
-%\appendix
-%\addcontentsline{toc} {chapter}{\numberline {}Appendix A}
-%\include{append-a}
-%\include{append-b}
-%\addcontentsline{toc} {chapter}{\numberline {}Bibliography}{}
-%\include{biblio}
-
-\bibliographystyle{apj}
-\bibliography{references.bib}
 \end{document}
