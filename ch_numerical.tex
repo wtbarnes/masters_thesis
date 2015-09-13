@@ -1,37 +1,88 @@
 \chapter{Numerical Modeling}
 \label{ch:numerical}
-\hl{This chapter will outline our numerical approach to studying the solar corona}
-\par Often, the full 3D magnetohydrodynamic (MHD) equations are used when modeling loops in the solar corona. However, such treatments are computationally expensive and are prohibitive when studies of large parameter spaces are needed. Instead, the one-dimensional (1D) hydrodynamic equations are used to model plasma dynamics in coronal loops. These hydrodynamic equations do not include the magnetic field $B$. This is because the corona These equations are parameterized in terms of time, $t$, and the field-aligned coordinate, $s$. 
-\section{One-dimensional Hydrodynamics}
+%
+\par Coronal loop modeling can be roughly divided into two categories: multi-dimensional (typically 3D) magnetohydrodynamic models and hydrodynamic models. The former focuses primarily on the study of the dynamics of the magnetic field itself; the latter concentrates on the response of the plasma for some \textit{ad-hoc} heating and prescribed, static field geometry \citep{bradshaw_influence_2013}. While a hydrodynamic treatment may seem overly simplified, such models often provide a much more physically realizable treatment of the plasma than most 3D MHD models. This thesis will examine primarily the use of hydrodynamic models in the study of coronal plasma dynamics. By using hydrodynamic models, the evolution and response of the plasma to various heating functions can be carefully treated. In particular, this work will focus on the role of a two-fluid treatment in efficient hydrodynamic simulations. Such efficient models allow for the exploration of large parameter spaces with comparably little computational overhead.
+%
+\section{One-dimensional Two-fluid Hydrodynamics}
 \label{sec:1dhydro}
-\hl{List the 1D hydrodynamic equations and briefly discuss their origin (i.e. how they were derived) and how they differ from MHD approach
-Include plasma $\beta$ justification of why we don't include the magnetic field}
-\par The single-fluid 1D hydrodynamic equations are given by,
+%
+\par In \S\ref{subsec:hydro}, the hydrodynamic equations were discussed under the assumption that the electron and ion populations were in equilibrium at all times (i.e. a single-fluid approximation). However, since the mechanism behind coronal heating is still highly debated, the degree to which the ions or electrons are preferentially heated is unknown. It is often assumed that the electrons are the direct recipients of the prescribed heating function. However, it is also possible that the ions are preferentially heated. One particular example is that of ion-cyclotron wave resonances \citep{markovskii_intermittent_2004}. Ion cyclotron waves are excited by plasma instabilities in the lower corona. These waves then propagate upwards through the coronal plasma and wave particle interactions can occur for those ions whose gyrofrequencies have a resonance with the ion-cyclotron wave. Additionally, there is also evidence for ion heating via reconnection, both in laboratory plasmas and particle-in-cell simulations \citep{ono_ion_1996,yoo_bulk_2014,drake_onset_2014}. Thus, ion heating in the solar corona should not be discounted as a possibility.
+%
+\par In this work, quasi-neutrality, $n_e=n_i=n$, will be assumed. While the heavier ions are in higher charge states and have thus given up more than one electron per ion, $\mathrm{Ab}_{\mathrm{H}}\gg\mathrm{Ab}_{X>\mathrm{H}}$. In other words, the abundance of (singly ionized) H is so much greater than the multiply-ionized heavier elements that quasi-neutrality is a valid assumption. Additionally, current-free conditions are also assumed such that $v_e=v_i=v$. Under these assumptions, the conservative forms of the mass and momentum equations can be written,
 \begin{align}
-	\frac{\partial\rho}{\partial t} &= -\frac{\partial(\rho v)}{\partial s} \label{eq:1dmass} \\
-	\frac{\partial(\rho v)}{\partial t} &= -\frac{\partial(\rho v^2)}{\partial s}-\frac{\partial(p)}{\partial s} + \frac{\partial}{\partial s}\left(\frac{4}{3}\mu\frac{\partial v}{\partial s}\right) + \rho g_{\parallel} \label{eq:1dmom} \\
-	\frac{\partial E}{\partial t} &= -\frac{\partial}{\partial s}((E+p)v)-\frac{\partial F}{\partial s} + E_H - E_R +\rho g_{\parallel}v, \label{eq:1denergy_sf}
+	\frac{\partial\rho}{\partial t} &= -\frac{\partial(\rho v)}{\partial s} \label{eq:1dmass}, \\[0.5em]
+	\frac{\partial(\rho v)}{\partial t} &= -\frac{\partial(\rho v^2)}{\partial s}-\frac{\partial(p_e + p_i)}{\partial s} + \frac{\partial}{\partial s}\left(\frac{4}{3}\mu_i\frac{\partial v}{\partial s}\right) + \rho g_{\parallel}, \label{eq:1dmom}
 \end{align}
-where
+where $\rho=m_en_e + m_in_i=n(m_e+m_i)\approx nm_i$, $m_i$ is the ion mass, $p_e$ and $p_i$ are the electron and ion pressures respectively, and $\mu_i=m_iu_i$, where $u_i$ is the classical Spitzer viscosity coefficient \citep{bradshaw_influence_2013}. Notice that Eq. \ref{eq:1dmass} is equivalent to its single-fluid counterpart due to our assumption of quasi-neutrality and that the only difference between Eq. \ref{eq:1dmom} and Eq. \hl{SF MOM EQ REF HERE} is the addition of the ion viscosity term and that $p=p_e+p_i$.
+%
+\par The electron and ion energy equations are given by
+\begin{align}
+	\frac{\partial E_e}{\partial t} &= -\frac{\partial}{\partial s} \lbrack(E_e+p_e)v\rbrack+v\frac{\partial p_e}{\partial s} - \frac{\partial F_{e}}{\partial s} + \frac{1}{\gamma - 1}k_Bn\nu_{ei}(T_i-T_e) -E_R+E_{H,e}, \label{eq:1denergy_e} \\[0.5em]
+	\frac{\partial E_i}{\partial t} &= -\frac{\partial }{\partial s}\lbrack(E_i+p_i)v\rbrack-v\frac{\partial p_e}{\partial s} - \frac{\partial F_{i}}{\partial s} + \frac{1}{\gamma - 1}k_Bn\nu_{ei}(T_e-T_i) + \frac{\partial}{\partial s}\left(\frac{4}{3}\mu_iv\frac{\partial v}{\partial s}\right) +\rho v g_{\parallel} + E_{H,i},\label{eq:1denergy_i}
+\end{align}
+where $E_e$ and $E_i$ are the electron and ion energies, respectively, and $E_{H,e}$ and $E_{H,i}$ are the \textit{ad-hoc} volumetric heating rates for the electrons and ions, respectively. Furthermore, this set of equations is subject to the closure conditions
 \begin{equation}
-	E=\frac{1}{\gamma-1}p+\frac{1}{2}\rho v^2.
+	E_e = \frac{p_e}{\gamma - 1}, \label{eq:ee_close} \\[0.5em]
+	E_i = \frac{p_i}{\gamma - 1} + \frac{1}{2}\rho v^2, \label{eq:ei_close} \\[0.5em]
+	p_e = k_BnT_e, \label{eq:pe_close} \\[0.5em]
+	p_i = k_BnT_i, \label{eq:pi_close}
 \end{equation}
-$s$ and $t$ are the field-aligned spatial coordinate and time, respectively, $\rho=mn$ is the mass density, $v$ is the bulk velocity, $\mu$ is the viscosity coefficient and $g_{\parallel}$ is the component of gravitational acceleration parallel to $s$, $E$ is the energy density and $p=2nk_BT$ is the pressure subject to closure by the ideal gas law.
-\par Additionally, we also have three terms that are specific to energy balance in a coronal loop: the heat flux $F=\kappa_0T^{5/2}\partial T/\partial s$, typically given by the classical Spitzer-Harm expression, the ad-hoc heating term $E_H$, and the volumetric radiative loss term $E_R=n^2\Lambda(T)$, where $\Lambda(T)$ is the radiative loss function.
-\hl{Emphasize terms that are ``non-standard'' hydrodynamic terms (e.g. radiation, heat flux, ad-hoc heating, enthalpy transfer)
-Bring up HYDRAD model and discuss speed limitations}
-\section{The EBTEL Model}
-\label{sec:ebtel}
-When using hydrodynamic simulations to study coronal loops, it is often best to compare computed observables with observations in order to make constraints on loop properties. To do this, one must explore a very large parameter space of initial conditions (e.g. loop length, heating frequency, power-law index, etc.,). Though the 1D hydrodynamic equations have been shown to accurately model coronal loops,
-\hl{Derive the EBTEL equations from the 1D hydrodynamic equations and discuss the physics behind the EBTEL model; what physics is left out? what physical insight can we still gain from this model?}
+where $\gamma=5/3$ is the adiabatic index.
+% 
+\par The conductive heat fluxes for the ions and electrons, $F_e$ and $F_i$, are given by the classical Spitzer-Harm \citep{spitzer_transport_1953} formulas
+\begin{align}
+	F_e=-\kappa_{0,e}T_e^{5/2}\frac{\partial T_e}{\partial s}, \label{eq:1dhfluxe} \\[0.5em]
+	F_i=-\kappa_{0,i}T_i^{5/2}\frac{\partial T_i}{\partial s}, \label{eq:1dhfluxi}
+\end{align}
+where $\kappa_{0,e}$ and $\kappa_{0,i}$ are the Spitzer coefficients for electron and ion thermal conduction, respectively \citep{bradshaw_influence_2013}. The classical formula for the heat flux, however, is known to be inaccurate at high temperatures and low densities. To correct for this, a flux-limiter or free-streaming limit is often used, such that the heat flux saturates at
+\begin{equation}
+	F_{sat,s} = -\beta\frac{3}{2}\frac{k^{3/2}}{m_s^{1/2}}nT_s^{3/2},
+\end{equation}
+where $s$ specifies the particles species \citep{bradshaw_explosive_2006}. This prevents the heat flux from becoming unphysically large, particularly during the onset of heating when the temperature is high and the density relatively low. $\beta$ is a flux limiter constant with a typical value between $1$ and $1/6$ \citep{luciani_nonlocal_1983,karpen_nonlocal_1987}. The final expression for the conductive flux for species $s$ can then be written as
+\begin{equation}
+	F_s=\frac{F_{c,s}F_{sat,s}}{\sqrt{F_{c,s}^2 + F_{sat,s}^2}},
+\end{equation}
+where $F_{c,s}$ is the classical expression for the heat flux for species $s$ as given in Eqs. \ref{eq:1dhfluxe} and \ref{eq:1dhfluxi}. Thus, $F_s\approx F_{c,s}$ when $|F_{c,s}|\ll|F_{sat,s}|$ and $F_s\approx F_{sat,s}$ when $|F_{c,s}|\gg|F_{sat,s}|$.
+%
+\par The electron and ion energy equations are coupled through a collisional term proportional to the Coulomb collision frequency times the difference between the temperatures of the respective species. The Coulomb collision frequency is given by
+\begin{equation}
+	\nu_{ei} = \frac{16\sqrt{\pi}}{3}\frac{e^4}{m_em_i}\left(\frac{2k_BT_e}{m_e}\right)^{-3/2}n\ln{\Lambda},
+\end{equation}
+where $\ln{\Lambda}\approx20$ is the Coulomb logarithm. If the heating timscale is much greater than $1/\nu_{ei}$, the collisional timescale, then electron-ion equilibrium cannot be assumed during the heating phase. Thus, treating the evolution of the electron and ions separately is particularly important when studying impulsive heating in coronal loops.
+%
+\section{``0''-Dimensional Hydrodynamic Models }
+\label{sec:0dmodels}
+%
+\par As discussed in \S\ref{sec:1dhydro} and \S\ref{subsec:hydro}, 1D hydrodynamic models are an invaluable tool for studying the plasma dynamics of the solar corona. However, while these models only consider evolution in the field-aligned direction, their solutions still necessitate a careful treatment of several highly-nonlinear partial differential equations. Perhaps the greatest restriction imposed on these models is the need to resolve the thermal conduction timescale, given by $\Delta t_C=4\times10^{-10}n\Delta s^2/T^{5/2}$. For a transition region plasma with an adequate grid size, this can result in a timestep on the order of several milliseconds \citep{bradshaw_influence_2013}. This makes modeling events in excess of a few hours tedious and computing thousands of field lines nearly impossible. Additionally, as 1D hydrodynamic codes become more sophisticated, incorporating features such as adaptive mesh refinement and effects due to non-equilibrium ionization, their output becomes increasingly more complicated and difficult to interpret \citep{cargill_enthalpy-based_2012-1}.
+%
+\par Thus, there is a need for codes which a) provide an efficient way to model dynamic coronal loops and b) generate output that provides physical insight into the evolution of the plasma and the resulting physical observables. Zero-dimensional or ``0D'' hydrodynamic models satisfy both of these requirements. 0D models have long been used as a tool to better understand static and dynamic coronal loop configurations. Som
+%
+
+\par\hl{Discuss importance of two-fluid effects in hydrodynamic models of the solar corona; include some quick calculations to show how electron and ion fluids can become decoupled}
+\hl{If there is time, discuss speed comparison between EBTEL and HYDRAD}
+%
+\subsection{The EBTEL Model}
+\label{subsec:ebtel}
+%
+\par\hl{Derive the EBTEL equations from the 1D hydrodynamic equations and discuss the physics behind the EBTEL model; what physics is left out? what physical insight can we still gain from this model?}
 \hl{Say why EBTEL is important (i.e. large parameter sweeps that can't be done with HYDRAD)}
 \hl{Discuss 0D nature, maybe include discussion of previous 0D models and why EBTEL is better}
 \hl{Show comparisons between EBTEL and HYDRAD}
-\section{The Two-fluid EBTEL Model}
-\label{sec:ebtel2fl}
-\hl{Discuss importance of two-fluid effects in hydrodynamic models of the solar corona; include some quick calculations to show how electron and ion fluids can become decoupled}
-\hl{Derive two-fluid EBTEL equations from 1D hydrodynamic equations
-Show several comparisons between HYDRAD and two-fluid EBTEL to justify its use in this study}
-\hl{remember to show EM calculation, justification, how EBTEL treats DEM as opposed to HYDRAD}
-\hl{Briefly detail solver(s) used, adaptive timestep, why this is necessary, etc.}
-\hl{If there is time, discuss speed comparison between EBTEL and HYDRAD}
+%
+\subsection{The Two-fluid EBTEL Model}
+\label{subsec:two_fluid_ebtel}
+%
+\hl{Derive two-fluid EBTEL equations from 1D hydrodynamic equations}
+%
+\section{Numerical Implementation}
+\label{sec:numerical}
+%
+\subsection{Euler Method}
+\label{subsec:euler}
+%
+\subsection{Fourth-order Runge-Kutta Method}
+\label{subsec:rk4}
+%
+\subsection{Adaptive Timestep Routine}
+\label{subsec:adapt}
+%
