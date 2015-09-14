@@ -29,10 +29,10 @@ where $E_e$ and $E_i$ are the electron and ion energies, respectively, and $E_{H
 \end{align}
 where $\gamma=5/3$ is the adiabatic index.
 % 
-\par The conductive heat fluxes for the ions and electrons, $F_e$ and $F_i$, are given by the classical Spitzer-Harm \citep{spitzer_transport_1953} formulas
+\par The conductive heat fluxes for the ions and electrons, $F_{e}$ and $F_{i}$, are given by the classical Spitzer-Harm \citep{spitzer_transport_1953} formulas
 \begin{align}
-	F_e=-\kappa_{0,e}T_e^{5/2}\frac{\partial T_e}{\partial s}, \label{eq:1dhfluxe} \\[0.5em]
-	F_i=-\kappa_{0,i}T_i^{5/2}\frac{\partial T_i}{\partial s}, \label{eq:1dhfluxi}
+	F_{e}=-\kappa_{0,e}T_e^{5/2}\frac{\partial T_e}{\partial s}, \label{eq:1dhfluxe} \\[0.5em]
+	F_{i}=-\kappa_{0,i}T_i^{5/2}\frac{\partial T_i}{\partial s}, \label{eq:1dhfluxi}
 \end{align}
 where $\kappa_{0,e}$ and $\kappa_{0,i}$ are the Spitzer coefficients for electron and ion thermal conduction, respectively \citep{bradshaw_influence_2013}. The classical formula for the heat flux, however, is known to be inaccurate at high temperatures and low densities. To correct for this, a flux-limiter or free-streaming limit is often used, such that the heat flux saturates at
 \begin{equation}
@@ -72,7 +72,7 @@ where $\ln{\Lambda}\approx20$ is the Coulomb logarithm. If the heating timscale 
 \begin{figure}
 	\centering
 	\includegraphics[width=0.5\textwidth]{figures/ebtel_schematic.pdf}
-	\caption{Schematic showing how a loop, with coronal portion of length $L$ and TR length $\ell$, is represented in EBTEL. Note that the loop is shown as a cylinder since (nearly) all effects due to gravitational stratification are ignored. Quantities denoted with a ``0'' subscript are evaluated at the corona-TR interface; quantities denoted with an ``a'' subscript are evaluated at the loop apex.}
+	\caption{Schematic showing how a loop, with coronal portion of length $L$ and TR length $\ell$, is represented in EBTEL. Note that the loop is shown as a cylinder since (nearly) all effects due to gravitational stratification are ignored. Quantities denoted with a ``0'' subscript are evaluated at the corona-TR interface; quantities denoted with an ``a'' subscript are evaluated at the loop apex. Note that the relative size of the TR is exaggerated for the purposes of illustration and in reality $\ell\ll L$.}
 	\label{fig:ebtel_schematic}
 \end{figure}
 %
@@ -97,16 +97,50 @@ where an overbar indicates the quantity is spatially averaged over the corona, $
 %
 \par While EBTEL has been an extremely useful tool for modelers and observers alike, its constituent equations (Eqs. \ref{eq:ebtel_sf_pressure} and \ref{eq:ebtel_sf_density}) are based on the single-fluid hydrodynamic equations. As discussed in \S\ref{sec:1dhydro}, for even mildly-impulsive heating scenarios, the electron and ion populations can be far from equilibrium during the heating phase of loop evolution, when the density is low and the temperature is high. Thus if EBTEL is going to be used to study impulsive heating in coronal loops, it should take into account these two-fluid effects.
 %
-\par The bulk of the work behind this thesis has been devoted to deriving and numerically implementing a set of two-fluid EBTEL equations, EBTEL-2fl hereafter. These equations are derived by applying the ``EBTEL treatment,'' as outlined in \citet{klimchuk_highly_2008}, to the two-fluid hydrodynamic equations (see \S\ref{sec:1dhydro}). First, Eqs. \ref{eq:ee_close} and \ref{eq:ei_close} are plugged into Eqs. \ref{eq:1denergy_e} and \ref{eq:1denergy_i} such that
+\par The bulk of the work behind this thesis has been devoted to deriving and numerically implementing a set of two-fluid EBTEL equations, EBTEL-2fl hereafter. These equations are derived by applying the ``EBTEL treatment,'' as outlined in \citet{klimchuk_highly_2008} and discussed in \S\ref{subsec:ebtel}, to the two-fluid hydrodynamic equations (see \S\ref{sec:1dhydro}). First, Eqs. \ref{eq:ee_close} and \ref{eq:ei_close} are plugged into Eqs. \ref{eq:1denergy_e} and \ref{eq:1denergy_i} such that
 \begin{align}
 	\frac{1}{\gamma - 1}\frac{\partial p_e}{\partial t} &= -\frac{\gamma}{\gamma - 1}\frac{\partial}{\partial s}(p_ev)+v\frac{\partial p_e}{\partial s} - \frac{\partial F_{e}}{\partial s} + \frac{1}{\gamma - 1}k_Bn\nu_{ei}(T_i-T_e) -E_R+E_{H,e}, \label{eq:1denergy_e_simp} \\[0.5em]
 	\frac{1}{\gamma - 1}\frac{\partial p_i}{\partial t} &= -\frac{\gamma}{\gamma - 1}\frac{\partial }{\partial s}(p_iv) -v\frac{\partial p_e}{\partial s} - \frac{\partial F_{i}}{\partial s} + \frac{1}{\gamma - 1}k_Bn\nu_{ei}(T_e-T_i) + E_{H,i}. \label{eq:1denergy_i_simp}
 \end{align}
 Note that in keeping with the assumptions of the original EBTEL model, the $\mathcal{O}(v^2)$ terms in Eq. \ref{eq:ei_close} have been dropped. Next, Eq. \ref{eq:1denergy_e_simp} is integrated over the coronal portion of the loop (i.e. from the base to the apex),
 \begin{equation}
-	\int_C\mathrm{d}s~\Big[\frac{1}{\gamma - 1}\frac{\partial p_e}{\partial t} = -\frac{\gamma}{\gamma - 1}\frac{\partial}{\partial s}(p_ev)+v\frac{\partial p_e}{\partial s} - \frac{\partial F_{c,e}}{\partial s} + \frac{1}{\gamma - 1}k_Bn\nu_{ei}(T_i-T_e) -E_R+E_{H,e}\Big].
+	\label{eq:energy_e_int}
+	\int_C\mathrm{d}s~\Big[\frac{1}{\gamma - 1}\frac{\partial p_e}{\partial t} = -\frac{\gamma}{\gamma - 1}\frac{\partial}{\partial s}(p_ev)+v\frac{\partial p_e}{\partial s} - \frac{\partial F_{e}}{\partial s} + \frac{1}{\gamma - 1}k_Bn\nu_{ei}(T_i-T_e) -E_R+E_{H,e}\Big].
 \end{equation}
-Both the heat flux and the velocity at the loop apex are
+Both the heat flux and the velocity at the loop apex are neglected such that $\int_C\mathrm{d}s~\partial (p_ev)/\partial s\approx (p_ev)_0$ and $\int_C\mathrm{d}s~\partial F_{e}/\partial s\approx -F_{e,0}$. Plugging these expressions into Eq. \ref{eq:energy_e_int} yields
+\begin{equation}
+	\label{eq:0denergy_e_C}
+	\frac{L}{\gamma - 1}\frac{d \bar{p}_e}{dt} = \frac{\gamma}{\gamma - 1}(p_ev)_0 + F_{e,0} + \psi_C + \frac{Lk_B}{\gamma - 1}\bar{n}\bar{\nu}_{ei}(\bar{T}_i - \bar{T}_e) - \mathcal{R}_C + L\bar{E}_{H,e},
+\end{equation}
+where $\psi_C=\int_C\mathrm{d}s~v\partial p_e/\partial s$ and $\bar{\nu_{ei}}$ is evaluated at $\bar{n}$ and $\bar{T_e}$. The case of the ion energy is exactly analogous such that Eq. \ref{eq:1denergy_i_simp}, when averaged over the corona, becomes
+\begin{equation}
+	\label{eq:0denergy_i_C}
+	\frac{L}{\gamma - 1}\frac{d \bar{p}_i}{dt} = \frac{\gamma}{\gamma - 1}(p_iv)_0 + F_{0,i} - \psi_C + \frac{Lk_B}{\gamma - 1}\bar{n}\bar{\nu}_{ei}(\bar{T}_e - \bar{T}_i) + L\bar{E}_{H,i}.
+\end{equation}
+%
+\par In order to be able to solve Eqs. \ref{eq:0denergy_e_C} and \ref{eq:0denergy_i_C}, the enthalpy flux at the base of the corona for both the electrons and ions, $(p_ev)_0$ and $(p_iv)_0$, must be determined. Instead of integrating over the coronal, Eq. \ref{eq:1denergy_e_simp} is instead integrated over the transition region such that 
+\begin{align}
+	\int_{TR}\mathrm{d}s~\Big[\frac{1}{\gamma - 1}\frac{\partial p_e}{\partial t} &= -\frac{\gamma}{\gamma - 1}\frac{\partial}{\partial s}(p_ev)+v\frac{\partial p_e}{\partial s} - \frac{\partial F_{c,e}}{\partial s} + \frac{1}{\gamma - 1}k_Bn\nu_{ei}(T_i-T_e) -E_R+E_{H,e}\Big], \\[0.5em]
+	\frac{\ell}{\gamma - 1}\frac{d \bar{p}_e}{dt} &= -\frac{\gamma}{\gamma - 1}(p_ev)_0 - F_{0,e} + \psi_{TR} + \frac{\ell k_B}{\gamma - 1}\bar{n}\bar{\nu}_{ei}(\bar{T}_i - \bar{T}_e) - \mathcal{R}_{TR} + \ell\bar{E}_{H,e},
+\end{align}
+where $\psi_{TR}=\int_{TR}\mathrm{d}s~v\partial p_e/\partial s$ and an overbar indicates an average over the transition region. However, since $\ell\ll L$, all terms $\mathcal{O}(\ell)$ are neglected such that the expression for the electron enthalpy flux becomes,
+\begin{equation}
+	\label{eq:enthalpy_flux_e}
+	\frac{\gamma}{\gamma - 1}(p_ev)_0 = - F_{e,0} + \psi_{TR} - \mathcal{R}_{TR}.
+\end{equation}
+Again, the ion case is exactly analogous such that the ion enthalpy flux can be written,
+\begin{equation}
+	\label{eq:enthalpy_flux_i}
+	\frac{\gamma}{\gamma - 1}(p_iv)_0 =  - F_{0,i} - \psi_{TR}.
+\end{equation}
+Plugging Eqs. \ref{eq:enthalpy_flux_e} and \ref{eq:enthalpy_flux_i} into Eqs. yields the electron and ion EBTEL-2fl pressure equations,
+\begin{align}
+	\frac{d}{dt}\bar{p}_e &= \frac{\gamma - 1}{L}[\psi_{TR} + \psi_C -(\mathcal{R}_{TR} + \mathcal{R}_C)] + k_B\bar{n}\nu_{ei}(\bar{T}_i-\bar{T}_e) + (\gamma-1)\bar{E}_{H,e},\label{eq:ebtel2fl_press_e} \\[0.5em]
+	\frac{d}{dt}\bar{p}_i &= -\frac{\gamma - 1}{L}(\psi_{TR} + \psi_C) + k_B\bar{n}\nu_{ei}(\bar{T}_e-\bar{T}_i) + (\gamma-1)\bar{E}_{H,i}.\label{eq:ebtel2fl_press_i}
+\end{align}
+Note that Eq. \ref{eq:ebtel2fl_press_e} + Eq. \ref{eq:ebtel2fl_press_i} = Eq. \ref{eq:ebtel_sf_pressure}. Thus, the original single-fluid EBTEL pressure equation can be recovered from the electron and ion EBTEL-2fl pressure equations.
+%
+\par \hl{density equation}
 %
 \begin{figure}
 	\centering
