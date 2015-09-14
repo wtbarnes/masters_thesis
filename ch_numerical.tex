@@ -69,12 +69,19 @@ where $\ln{\Lambda}\approx20$ is the Coulomb logarithm. If the heating timscale 
 %
 \par The governing equations of the EBTEL model are derived by computing spatial averages over the coronal and transition region portions of the loop. In particular, spatial integrals of the 1D hydrostatic equations (see \S\ref{subsec:hydro}) are taken over the corona (length $L$) and the much thinner transition region (length $\ell\ll L$). EBTEL relies on several key assumptions: a) the flow is assumed to be subsonic, $v<C_s$, such that terms $\mathcal{O}(v^2)$ are ignored; b) the loop is shorter than a gravitational scale height such that gravitational terms are ignored; c) the ratios $c_2=\bar{T}/T_a$ and $c_3=T_0/T_a$, where $\bar{T},T_a,T_0$ are the coronally averaged, apex, and base temperatures, respectively, are fixed such that $c_2=0.9$ and $c_3=0.6$. Additionally, as is common in loop models, only one half of the loop is computed, with symmetry about the apex assumed \citep{klimchuk_highly_2008}.
 %
+\begin{figure}
+	\centering
+	\includegraphics[width=0.5\textwidth]{figures/ebtel_schematic.pdf}
+	\caption{Schematic showing how a loop, with coronal portion of length $L$ and TR length $\ell$, is represented in EBTEL. Note that the loop is shown as a cylinder since (nearly) all effects due to gravitational stratification are ignored. Quantities denoted with a ``0'' subscript are evaluated at the corona-TR interface; quantities denoted with an ``a'' subscript are evaluated at the loop apex.}
+	\label{fig:ebtel_schematic}
+\end{figure}
+%
 \par The 0D EBTEL equations, as given by \citet{cargill_enthalpy-based_2012}, are
 \begin{align}
 	\frac{1}{\gamma - 1}\frac{d\bar{p}}{dt} = \bar{E_H} - \frac{\mathcal{R}_C}{L}(1+c_1), \label{eq:ebtel_sf_pressure} \\[0.5em]
 	\frac{d\bar{n}}{dt} = -\frac{c_2(\gamma - 1)}{c_32k_B\bar{T}L\gamma}(F_0 + c_1\mathcal{R}_C), \label{eq:ebtel_sf_density}
 \end{align}
-where $\bar{n}$ and $\bar{p}$ are the coronally averaged density and pressure, respectively, $F_0$ is the heat flux at the base of the corona, $\mathcal{R}_C=\int_C\mathrm{d}s~E_R$ is the coronal spatial integral over the radiative loss term and $c_1=\mathcal{R}_{tr}/\mathcal{R}_c$ is the ratio between the spatially integrated radiative losses over the transition region and corona, respectively. Additionally, Eqs. \ref{eq:ebtel_sf_pressure} and \ref{eq:ebtel_sf_density} are closed by an equation of state, $\bar{p}=2\bar{n}k_B\bar{T}$, such that, given $\bar{n}$ and $\bar{p}$, the temperature $\bar{T}$ can be determined. It should be noted that \citet{klimchuk_highly_2008} determined that $c_1=4.0$ through an empirical method based on 1D hydrodynamic simulations. \citet{cargill_enthalpy-based_2012} later improved on this assumption by adding corrections for gravity and an improved estimated during the radiative cooling phase.
+where an overbar indicates the quantity is spatially averaged over the corona, $F_0$ is the heat flux at the base of the corona, $\mathcal{R}_C=\int_C\mathrm{d}s~E_R$ is the coronal spatial integral over the radiative loss term and $c_1=\mathcal{R}_{tr}/\mathcal{R}_c$ is the ratio between the spatially integrated radiative losses over the transition region and corona, respectively. Fig. \ref{fig:ebtel_schematic} shows the EBTEL geometry and the quantities associated with each region. The main advantage EBTEL has over other 0D codes is its treatement of the interaction between the corona and transition region. Additionally, Eqs. \ref{eq:ebtel_sf_pressure} and \ref{eq:ebtel_sf_density} are closed by an equation of state, $\bar{p}=2\bar{n}k_B\bar{T}$, such that, given $\bar{n}$ and $\bar{p}$, the temperature $\bar{T}$ can be determined. It should be noted that \citet{klimchuk_highly_2008} determined that $c_1=4.0$ through an empirical method based on 1D hydrodynamic simulations. \citet{cargill_enthalpy-based_2012} later improved on this assumption by adding corrections for gravity and an improved estimated during the radiative cooling phase.
 %
 \begin{figure}
 	\centering
@@ -88,7 +95,18 @@ where $\bar{n}$ and $\bar{p}$ are the coronally averaged density and pressure, r
 \subsection{The Two-fluid EBTEL Model}
 \label{subsec:two_fluid_ebtel}
 %
-\par\hl{Introduce EBTEL-2fl model by mentioning no two-fluid effects in EBTEL, refer back to previous section, derive equations, refer to figure}
+\par While EBTEL has been an extremely useful tool for modelers and observers alike, its constituent equations (Eqs. \ref{eq:ebtel_sf_pressure} and \ref{eq:ebtel_sf_density}) are based on the single-fluid hydrodynamic equations. As discussed in \S\ref{sec:1dhydro}, for even mildly-impulsive heating scenarios, the electron and ion populations can be far from equilibrium during the heating phase of loop evolution, when the density is low and the temperature is high. Thus if EBTEL is going to be used to study impulsive heating in coronal loops, it should take into account these two-fluid effects.
+%
+\par The bulk of the work behind this thesis has been devoted to deriving and numerically implementing a set of two-fluid EBTEL equations, EBTEL-2fl hereafter. These equations are derived by applying the ``EBTEL treatment,'' as outlined in \citet{klimchuk_highly_2008}, to the two-fluid hydrodynamic equations (see \S\ref{sec:1dhydro}). First, Eqs. \ref{eq:ee_close} and \ref{eq:ei_close} are plugged into Eqs. \ref{eq:1denergy_e} and \ref{eq:1denergy_i} such that
+\begin{align}
+	\frac{1}{\gamma - 1}\frac{\partial p_e}{\partial t} &= -\frac{\gamma}{\gamma - 1}\frac{\partial}{\partial s}(p_ev)+v\frac{\partial p_e}{\partial s} - \frac{\partial F_{e}}{\partial s} + \frac{1}{\gamma - 1}k_Bn\nu_{ei}(T_i-T_e) -E_R+E_{H,e}, \label{eq:1denergy_e_simp} \\[0.5em]
+	\frac{1}{\gamma - 1}\frac{\partial p_i}{\partial t} &= -\frac{\gamma}{\gamma - 1}\frac{\partial }{\partial s}(p_iv) -v\frac{\partial p_e}{\partial s} - \frac{\partial F_{i}}{\partial s} + \frac{1}{\gamma - 1}k_Bn\nu_{ei}(T_e-T_i) + E_{H,i}. \label{eq:1denergy_i_simp}
+\end{align}
+Note that in keeping with the assumptions of the original EBTEL model, the $\mathcal{O}(v^2)$ terms in Eq. \ref{eq:ei_close} have been dropped. Next, Eq. \ref{eq:1denergy_e_simp} is integrated over the coronal portion of the loop (i.e. from the base to the apex),
+\begin{equation}
+	\int_C\mathrm{d}s~\Big[\frac{1}{\gamma - 1}\frac{\partial p_e}{\partial t} = -\frac{\gamma}{\gamma - 1}\frac{\partial}{\partial s}(p_ev)+v\frac{\partial p_e}{\partial s} - \frac{\partial F_{c,e}}{\partial s} + \frac{1}{\gamma - 1}k_Bn\nu_{ei}(T_i-T_e) -E_R+E_{H,e}\Big].
+\end{equation}
+Both the heat flux and the velocity at the loop apex are
 %
 \begin{figure}
 	\centering
