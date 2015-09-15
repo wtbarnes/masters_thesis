@@ -209,11 +209,38 @@ a first-order Euler solver for $y_i$ can be written as
 	\label{eq:euler}
 	y_{i,j+1} = y_{i,j} + \tau f(y_{1,j},\ldots,y_{i,j},\ldots,y_{N,j};t_j),
 \end{equation}
-where $\tau=t_{j+1}-t_j$ and $j$ is the index representing the current timestep. The index $i$ represents the number of quantities to be solved such that the RHS of Eq. \ref{eq:nonlinear_ode} can depend on all or none of the other quantities. In the case of the EBTEL-2fl model, $N=3$ and $y_1,y_2,y_3=p_e,p_i,n$. Note also that the EBTEL-2fl equations, Eqs. \ref{eq:ebtel2fl_press_e}, \ref{eq:ebtel2fl_press_i}, and \ref{eq:ebtel2fl_density} all have the format of Eq. \ref{eq:nonlinear_ode} with the values at $t=0$ being determined by static equilibrium conditions. 
+where $\tau=t_{j+1}-t_j$ and $j$ is the index representing the current timestep. The index $i$ represents the number of quantities to be solved such that the right-hand side of Eq. \ref{eq:nonlinear_ode} can depend on all or none of the other quantities. In the case of the EBTEL-2fl model, $N=3$ and $y_1,y_2,y_3=p_e,p_i,n$. Note also that the EBTEL-2fl equations, Eqs. \ref{eq:ebtel2fl_press_e}, \ref{eq:ebtel2fl_press_i}, and \ref{eq:ebtel2fl_density} all have the format of Eq. \ref{eq:nonlinear_ode} with the values at $t=0$ being determined by static equilibrium conditions. 
 \subsection{Fourth-order Runge-Kutta Method}
 \label{subsec:rk4}
 %
-\par  While Euler solvers are easy to implement (see \S\ref{subsec:euler}) they often suffer from a lack of accuracy and stability \citep{numerical_press_1992}. Recall that for a first-oder Euler scheme, the global truncation error will be $\mathcal{O}(\tau)$. Thus, sufficiently small timesteps are needed to ensure an accurate solution. However, the smaller the timestep, the longer the compute time. The widely-used fourth-order Runge-Kutta method 
+\par  While Euler solvers are easy to implement (see \S\ref{subsec:euler}) they often suffer from a lack of accuracy and stability \citep{press_numerical_1992}. Recall that for a first-oder Euler scheme, the global truncation error will be $\mathcal{O}(\tau)$. Thus, sufficiently small timesteps are needed to ensure an accurate solution. However, the smaller the timestep, the longer the compute time. The widely-used fourth-order Runge-Kutta method, RK4 hereafter, improves accuracy and stability by calculating the right-hand side of Eq. \ref{eq:nonlinear_ode} at intermediate points between $t$ and $t+\tau$. In particular, RK4 uses an Euler method to calculate the $f$ at $t+\tau/2$. The value of $y_i$ is then estimated at $t+\tau/2$ using this Euler method value of $f$ at $t+\tau/2$ and this new value of $y_i$ is used to estimate $f$ at $t+\tau$. The RK4 method for equations of the form of Eq. \ref{eq:nonlinear_ode} is given by,
+\begin{equation}
+	\label{eq:rk4}
+	y_{i,j+1} = y_{i,j} + \frac{1}{6}(k_1 + 2k_2 + 2k_3 + k_4) + \mathcal{O}(\tau^5),
+\end{equation}
+where
+\begin{align}
+	k_1 &= \tau f(y_1(t_j),\ldots,y_N(t_j);t_j),\\[0.5em]
+	k_2 &= \tau f(y_1(t_j) + k_1/2,\ldots,y_N(t_j) + k_1/2; t_j+\tau/2),\\[0.5em]
+	k_3 &= \tau f(y_1(t_j) + k_2/2,\ldots,y_N(t_j) + k_2/2; t_j+\tau/2),\\[0.5em]
+	k_4 &= \tau f(y_1(t_j) + k_3,\ldots,y_N(t_j) + k_3; t_j + \tau),
+\end{align}
+\citep{press_numerical_1992}. For a static timestep, where the total number of steps is $(\text{total time})/\tau$, the global truncation error will be $\mathcal{O}(h^4)$. Thus, Eqs. \ref{eq:ebtel2fl_press_e}, \ref{eq:ebtel2fl_press_i}, and \ref{eq:ebtel2fl_density} can be solved using Eq. \ref{eq:rk4} with greater accuracy than with Eq. \ref{eq:euler}.
+%
 \subsection{Adaptive Timestep Routine}
 \label{subsec:adapt}
+%
+\par During the heating phase of a loop evolution cycle, particularly in an impulsive heating scenario, the temperature gradient in time can become very steep, especially if the density at the onset of heating is low (e.g. when the time between heating events is longer than the radiative cooling/draining timescale). Alternatively, during the radiative cooling phase, these temperature gradients are relatively shallow. Thus, very short timesteps will ensure adequate resolution of the behavior during the heating phase, but will lead to unnecessarily long compute times during the radiative cooling phase. On the other hand, using a long timestep will ensure small compute times, but could, at best, lead to an incorrect treatment of the fast-acting thermal conduction during the heating phase, and, at worst, cause serious stability issues in the solution during this period. 
+%
+\par Thus, Eqs. \ref{eq:ebtel2fl_press_e} and \ref{eq:ebtel2fl_press_i} lend themselves to an adaptive timestepping approach, where the timestep, $\tau$, is adjusted based on how the solution is changing at time $t_j$. There are many different timestepping control techniques; EBTEL-2fl uses the approach as outlined in \citet{garcia_numerical_2000}. Consider two cases of advancing the solution $y_{i,j}$ to $y_{i,j+1}$: 1) take one big timestep $\tau$ such that the final value is $y_{i,j+1}^{(b)}$; 2) take two small timesteps $\tau/2$ such that $y_i(t_j+\tau/2)$ is used to determined $y_i(t_j+\tau)=y_{i,j+1}^{(s)}$. 
+%
+\par To determine whether this error is acceptable, define $\Delta_c\equiv|y_{i,j+1}^{(b)} - y_{i,j+1}^{(s)}|$. Then, given some acceptable, user-specified error $\Delta_i$, the error ratio can be defined
+\begin{equation}
+	\epsilon = \frac{\Delta_c}{\Delta_i}.
+\end{equation}
+Recalling that the local truncation error for the RK4 method is $\Delta\propto\tau^5$, the new timestep can be defined as
+\begin{equation}
+	\tau_{new}=\tau\epsilon^{-1/5},
+\end{equation}
+where $\tau$ is the original timestep. If $\epsilon<1$, this new timestep is accepted. If $\epsilon>1$, the whole process is repeated with $\tau=\tau_{new}$. If the $\epsilon<1$ criteria is not met in some finite number of iterations, the routine fails.
 %
