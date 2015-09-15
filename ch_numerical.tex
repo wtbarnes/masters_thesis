@@ -92,6 +92,8 @@ where an overbar indicates the quantity is spatially averaged over the corona, $
 %
 \par EBTEL has been carefully benchmarked with the 1D hydrodynamic code HYDRAD. Fig. \ref{fig:ebtel_sf_compare} shows a comparison between EBTEL and HYDRAD for a series of impulsive, square heating events whose amplitudes are chosen from a power-law distribution. \citet{cargill_enthalpy-based_2012} also provide several comparisons between EBTEL and HYDRAD for triangluar, square, and gaussian heating pulses of varying duration and amplitude. Additionally, \citet{cargill_enthalpy-based_2012-1} show comparisons between EBTEL, HYDRAD, and earlier 0D models in an effort to show how EBTEL improves upon previous 0D efforts by matching 1D codes in both the initial heating and subsequent cooling phases of loop evolution.
 %
+\par Since its initial introduction by \citet{klimchuk_highly_2008}, EBTEL has been used successfully in a large number of published studies by both modelers and observers alike. For example, 
+%
 \subsection{The Two-fluid EBTEL Model}
 \label{subsec:two_fluid_ebtel}
 %
@@ -185,6 +187,7 @@ Additionally, $\psi_C$ is approximated as,
 \end{equation}
 Thus, Eqs. \ref{eq:psi_tr} and \ref{eq:psi_C} provide the final pieces for the set of EBTEL-2fl equations. Additionally, note that, using Eq. \ref{eq:psi_tr}, $\psi_{TR} - F_{e,0} - \mathcal{R}_{TR}=-\xi(F_{i,0} + F_{e,0} + \mathcal{R}_{TR})/(1 + \xi)$. In the single-fluid limit, $\bar{T}_e=\bar{T}_i=\bar{T}$ or $\xi=1$, noting that $F_0=F_e + F_i$, it can be seen that $\psi_{TR} - F_{e,0} - \mathcal{R}_{TR}=-(F_0 + \mathcal{R}_{TR})/2$ such that the original EBTEL equation, Eq. \ref{eq:ebtel_sf_density} , is recovered from Eq. \ref{eq:ebtel2fl_density}. Thus, all three of the EBTEL-2fl equations reduce to the original single-fluid EBTEL equations in the limit of electron-ion equilibrium.
 %
+\par As with the original EBTEL model, EBTEL-2fl has been carefully benchmarked against the HYDRAD hydrodynamic code. Fig. \ref{fig:ebtel_tf_compare} shows a comparison between EBTEL-2fl and HYDRAD for two different heating functions. Fig. \ref{fig:ebtel_tf_compare_1} shows the responses of EBTEL-2fl and HYDRAD to a single triangular pulse with a duration of 500 s. Note that the density evolution matches quite well during both the heating phase and cooling phase. A noticeable discrepancy occurs between the two ion temperatures at the start of the heating phase. The EBTEL-2fl ion temperature tends to rise more quickly because the density increases more quickly, initially in the EBTEL model. Since the electron-ion coupling term $\propto n^2$, the ions couple more quickly to the heated electrons. This artificial density increase is a consequence of the 0D nature of the model: in a loop with spatial extent, there is an additional lag in the density increase due to the inertia of the plasma. However, in EBTEL-2fl, the ``loop'' has no spatial extent and so the plasma essentially begins moving up the loop in zero time. Additionally, \ref{fig:ebtel_tf_compare_m} shows the EBTEL-2fl response in density and temperature for a series of 200 s heating events. The $\bar{n},\bar{T}_e,\bar{T}_i$ profiles all track quite well relative to the HYDRAD profiles.
 %
 \section{Numerical Implementation}
 \label{sec:numerical}
