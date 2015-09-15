@@ -71,8 +71,8 @@ where $\ln{\Lambda}\approx20$ is the Coulomb logarithm. If the heating timscale 
 %
 \begin{figure}
 	\centering
-	\includegraphics[width=0.5\textwidth]{figures/ebtel_schematic.pdf}
-	\caption{Schematic showing how a loop, with coronal portion of length $L$ and TR length $\ell$, is represented in EBTEL. Note that the loop is shown as a cylinder since (nearly) all effects due to gravitational stratification are ignored. Quantities denoted with a ``0'' subscript are evaluated at the corona-TR interface; quantities denoted with an ``a'' subscript are evaluated at the loop apex. Note that the relative size of the TR is exaggerated for the purposes of illustration and in reality $\ell\ll L$.}
+	\includegraphics[width=0.6\textwidth]{figures/ebtel_schematic.pdf}
+	\caption{Schematic showing how a loop half-length, with coronal portion of length $L$ and TR length $\ell$, is represented in EBTEL. Note that the loop is shown as a cylinder since (nearly) all effects due to gravitational stratification are ignored. Quantities denoted with a ``0'' subscript are evaluated at the corona-TR interface; quantities denoted with an ``a'' subscript are evaluated at the loop apex. Note that the relative size of the TR is exaggerated for the purposes of illustration and in reality $\ell\ll L$.}
 	\label{fig:ebtel_schematic}
 \end{figure}
 %
@@ -140,7 +140,21 @@ Plugging Eqs. \ref{eq:enthalpy_flux_e} and \ref{eq:enthalpy_flux_i} into Eqs. yi
 \end{align}
 Note that Eq. \ref{eq:ebtel2fl_press_e} + Eq. \ref{eq:ebtel2fl_press_i} = Eq. \ref{eq:ebtel_sf_pressure}. Thus, the original single-fluid EBTEL pressure equation can be recovered from the electron and ion EBTEL-2fl pressure equations.
 %
-\par \hl{density equation}
+\par Now, to derive the EBTEL-2fl density equation, Eq. \ref{eq:1dmass}, using $\rho\approx m_in,$ is integrated over the coronal portion of the loop,
+\begin{align}
+	\int_{C}\mathrm{d}s~\Big[\frac{\partial n}{\partial t} + \frac{\partial (nv)}{\partial s} = 0\Big], \\[0.5em]
+	L\frac{d\bar{n}}{dt} = -\int_C\mathrm{d}s~\frac{\partial (nv)}{\partial s} = (nv)_0,
+\end{align}
+where again it is assumed that the velocity vanishes at the apex of the loop. Additionally, the right-hand side can be approximated $(nv)_0\approx n_0v_0$ and using Eq. \ref{eq:pe_close}, 
+\begin{equation}
+	L\frac{d\bar{n}}{dt} = \frac{p_{e,0}v_0}{k_BT_{e,0}}.
+\end{equation}
+Finally, approximating $p_{e,0}v_0\approx(p_ev)_0$ and using Eq. \ref{eq:enthalpy_flux_e}, the EBTEL-2fl density equation can be expressed as,
+\begin{equation}
+	\label{eq:ebtel2fl_density}
+	\frac{d \bar{n}}{dt} = \frac{c_2(\gamma-1)}{c_3\gamma Lk_B\bar{T}_e}(\psi_{TR} - F_{e,0}-\mathcal{R}_{TR}),
+\end{equation}
+where the substitution $T_{e,0}=c_3\bar{T}/c_2$ has been used. Thus, Eqs. \ref{eq:ebtel2fl_press_e}, \ref{eq:ebtel2fl_press_i}, and \ref{eq:ebtel2fl_density} are the EBTEL-2fl equations for pressure and density evolution and are closed by the equations of state, Eqs. \ref{eq:pe_close} and \ref{eq:pi_close}.
 %
 \begin{figure}
 	\centering
@@ -153,6 +167,24 @@ Note that Eq. \ref{eq:ebtel2fl_press_e} + Eq. \ref{eq:ebtel2fl_press_i} = Eq. \r
 	\caption{Comparisons between the EBTEL-2fl model (dashed) and HYDRAD (solid) for \textbf{(a)} a single triangular pulse lasting 500 s and \textbf{(b)} the same heating profile as in Fig. \ref{fig:ebtel_sf_compare}. The upper panels show the heating profiles, the middle panels show the electron (blue) and ion (red) temperature profiles, and the bottom panels show the density profiles.}
 	\label{fig:ebtel_tf_compare}
 \end{figure}
+%
+\par Looking back to Eqs. \ref{eq:ebtel2fl_press_e}, \ref{eq:ebtel2fl_press_i}, and \ref{eq:ebtel2fl_density}, one may notice that there are still two missing pieces: $\psi_C$ and $\psi_{TR}$. These terms arise from the spatial integrals over the electron pressure gradients that represent the the work done by the electric field on the species (the mobile electrons in this case) to maintain quasi-neutrality. To derive $\psi_{TR},$ first consider the quantity $\xi\equiv T_{e,0}/T_{i,0}.$ Then, using Eq. \ref{eq:pe_close}, multiplying by $1=v_0/v_0$, and again the approximation $p_{e,0}v_0\approx(p_ev)_0$, 
+%
+\begin{equation}
+	\xi\equiv\frac{T_{e,0}}{T_{i,0}}=\frac{(p_ev)_0}{(p_iv)_0}.
+\end{equation}
+Plugging in Eqs. \ref{eq:enthalpy_flux_e} and \ref{eq:enthalpy_flux_i} and using a bit of algebra, an expression for $\psi_{TR}$ can be derived,
+\begin{equation}
+	\label{eq:psi_tr}
+	\psi_{TR} = \frac{1}{1 + \xi}(F_{0,e} + \mathcal{R}_{TR} - \xi F_{0,i}).
+\end{equation}
+Additionally, $\psi_C$ is approximated as,
+\begin{equation}
+	\label{eq:psi_C}
+	\psi_C = \int_C\mathrm{d}s~v\frac{\partial p_e}{\partial s}\approx \bar{v}p_e^{(a)} - (p_ev)_0.
+\end{equation}
+Thus, Eqs. \ref{eq:psi_tr} and \ref{eq:psi_C} provide the final pieces for the set of EBTEL-2fl equations. Additionally, note that, using Eq. \ref{eq:psi_tr}, $\psi_{TR} - F_{e,0} - \mathcal{R}_{TR}=-\xi(F_{i,0} + F_{e,0} + \mathcal{R}_{TR})/(1 + \xi)$. In the single-fluid limit, $\bar{T}_e=\bar{T}_i=\bar{T}$ or $\xi=1$, noting that $F_0=F_e + F_i$, it can be seen that $\psi_{TR} - F_{e,0} - \mathcal{R}_{TR}=-(F_0 + \mathcal{R}_{TR})/2$ such that the original EBTEL equation, Eq. \ref{eq:ebtel_sf_density} , is recovered from Eq. \ref{eq:ebtel2fl_density}. Thus, all three of the EBTEL-2fl equations reduce to the original single-fluid EBTEL equations in the limit of electron-ion equilibrium.
+%
 %
 \section{Numerical Implementation}
 \label{sec:numerical}
