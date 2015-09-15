@@ -192,14 +192,28 @@ Thus, Eqs. \ref{eq:psi_tr} and \ref{eq:psi_C} provide the final pieces for the s
 \section{Numerical Implementation}
 \label{sec:numerical}
 %
-\hl{Discuss how EBTEL-2fl has been implemented, choice of language, plans to distribute to community, speed up, use at no cost}
+\par While the original EBTEL model of \citet{klimchuk_highly_2008,cargill_enthalpy-based_2012} was coded in the Interactive Data Language (IDL), a popular software package in solar physics, EBTEL-2fl has been implemented in the C programming language. The reason for this is twofold: 1) C offers a significant speedup over IDL, allowing for much more efficient parameter space explorations. For example, a 10,000 second run of the original EBTEL model can take up to 7 seconds, while an equivalent case in EBTEL-2fl takes only a fraction of a second. 2) C is freely available on all computing platforms while a department-wide IDL license could cost upwards of several hundred dollars. Since this code will eventually be distributed to the solar physics community, all researchers will be able to use the code regardless of the financial situation of their department or university. Additionally, C is in general more portable than proprietary languages like IDL, meaning that EBTEL-2fl can easily be run on large computing clusters, making parameter space investigations even more efficient. 
+%
+\par Though the original EBTEL code used only a simple Euler solver, with a static timestep, the EBTEL-2fl model includes a slightly more sophisticated solver with an optional adaptive timestepping routine. The code also includes an option to use a simple Euler. Below, both the Euler and fourth-order Runge-Kutta solvers will be briefly described. Additionally, details of the adaptive timestep routine will also be discussed.
 %
 \subsection{Euler Method}
 \label{subsec:euler}
 %
+\par Perhaps the first step in any numerical ordinary differential equation (ODE) solution is the explicit Euler method. For an ODE of the form,
+\begin{equation}
+	\label{eq:nonlinear_ode}
+	\frac{d y_i}{dt} = f(y_1(t),\ldots,y_i(t),\ldots,y_N(t);t),\quad y_i(t=0)=y_{i,0}\quad \text{for }i=1,\ldots,N,
+\end{equation}
+a first-order Euler solver for $y_i$ can be written as
+\begin{equation}
+	\label{eq:euler}
+	y_{i,j+1} = y_{i,j} + \tau f(y_{1,j},\ldots,y_{i,j},\ldots,y_{N,j};t_j),
+\end{equation}
+where $\tau=t_{j+1}-t_j$ and $j$ is the index representing the current timestep. The index $i$ represents the number of quantities to be solved such that the RHS of Eq. \ref{eq:nonlinear_ode} can depend on all or none of the other quantities. In the case of the EBTEL-2fl model, $N=3$ and $y_1,y_2,y_3=p_e,p_i,n$. Note also that the EBTEL-2fl equations, Eqs. \ref{eq:ebtel2fl_press_e}, \ref{eq:ebtel2fl_press_i}, and \ref{eq:ebtel2fl_density} all have the format of Eq. \ref{eq:nonlinear_ode} with the values at $t=0$ being determined by static equilibrium conditions. 
 \subsection{Fourth-order Runge-Kutta Method}
 \label{subsec:rk4}
 %
+\par  While Euler solvers are easy to implement (see \S\ref{subsec:euler}) they often suffer from a lack of accuracy and stability \citep{numerical_press_1992}. Recall that for a first-oder Euler scheme, the global truncation error will be $\mathcal{O}(\tau)$. Thus, sufficiently small timesteps are needed to ensure an accurate solution. However, the smaller the timestep, the longer the compute time. The widely-used fourth-order Runge-Kutta method 
 \subsection{Adaptive Timestep Routine}
 \label{subsec:adapt}
 %
