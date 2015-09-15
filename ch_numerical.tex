@@ -92,7 +92,7 @@ where an overbar indicates the quantity is spatially averaged over the corona, $
 %
 \par EBTEL has been carefully benchmarked with the 1D hydrodynamic code HYDRAD. Fig. \ref{fig:ebtel_sf_compare} shows a comparison between EBTEL and HYDRAD for a series of impulsive, square heating events whose amplitudes are chosen from a power-law distribution. \citet{cargill_enthalpy-based_2012} also provide several comparisons between EBTEL and HYDRAD for triangluar, square, and gaussian heating pulses of varying duration and amplitude. Additionally, \citet{cargill_enthalpy-based_2012-1} show comparisons between EBTEL, HYDRAD, and earlier 0D models in an effort to show how EBTEL improves upon previous 0D efforts by matching 1D codes in both the initial heating and subsequent cooling phases of loop evolution.
 %
-\par Since its initial introduction by \citet{klimchuk_highly_2008}, EBTEL has been used successfully in a large number of published studies by both modelers and observers alike. For example, 
+\par Since its initial introduction by \citet{klimchuk_highly_2008}, EBTEL has been used successfully in a large number of published studies by both modelers and observers alike. For example, \citet{ugarte-urra_determining_2014} used EBTEL to forward model a series of light curves to test an event detection algorithm applied to single-pixel timeseries from active region cores. Through the use of EBTEL, they were able to determine that their algorithm could only provide an upper limit on the heating frequency as measure by transient brightenings in these light curves. Furthermore, both \citet{qiu_heating_2012} and \citet{liu_determining_2013} used EBTEL to analyze and constrain proposed heating functions in flaring loops. Thus, EBTEL provides an easy and powerful way to analyze coronal loops in several different regimes and produces results that are easy to compare to observations.
 %
 \subsection{The Two-fluid EBTEL Model}
 \label{subsec:two_fluid_ebtel}
@@ -191,6 +191,8 @@ Thus, Eqs. \ref{eq:psi_tr} and \ref{eq:psi_C} provide the final pieces for the s
 %
 \section{Numerical Implementation}
 \label{sec:numerical}
+%
+\hl{Discuss how EBTEL-2fl has been implemented, choice of language, plans to distribute to community, speed up, use at no cost}
 %
 \subsection{Euler Method}
 \label{subsec:euler}
