@@ -36,10 +36,12 @@ where $\gamma=5/3$ is the adiabatic index.
 \end{align}
 where $\kappa_{0,e}$ and $\kappa_{0,i}$ are the Spitzer coefficients for electron and ion thermal conduction, respectively \citep{bradshaw_influence_2013}. The classical formula for the heat flux, however, is known to be inaccurate at high temperatures and low densities. To correct for this, a flux-limiter or free-streaming limit is often used, such that the heat flux saturates at
 \begin{equation}
+	\label{eq:free_stream_limit}
 	F_{sat,s} = -\beta\frac{3}{2}\frac{k^{3/2}}{m_s^{1/2}}nT_s^{3/2},
 \end{equation}
 where $s$ specifies the particles species \citep{bradshaw_explosive_2006}. This prevents the heat flux from becoming unphysically large, particularly during the onset of heating when the temperature is high and the density relatively low. $\beta$ is a flux limiter constant with a typical value between $1$ and $1/6$ \citep{luciani_nonlocal_1983,karpen_nonlocal_1987}. The final expression for the conductive flux for species $s$ can then be written as
 \begin{equation}
+	\label{eq:flux_limited}
 	F_s=\frac{F_{c,s}F_{sat,s}}{\sqrt{F_{c,s}^2 + F_{sat,s}^2}},
 \end{equation}
 where $F_{c,s}$ is the classical expression for the heat flux for species $s$ as given in Eqs. \ref{eq:1dhfluxe} and \ref{eq:1dhfluxi}. Thus, $F_s\approx F_{c,s}$ when $|F_{c,s}|\ll|F_{sat,s}|$ and $F_s\approx F_{sat,s}$ when $|F_{c,s}|\gg|F_{sat,s}|$.
