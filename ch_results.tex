@@ -4,10 +4,32 @@
 Here we will also describe how the study was performed and what tools were used to perform the study
 It is best not to introduce any new tools here; just pool from those that have already been discussed and show how they were applied
 Show lots of plots and tables}
+%
+\par As discussed in \S\ref{sec:modeling} and \S\ref{sec:forward_modeling}, hydrodynamic loop models are an invaluable tool for constraining heating properties in the solar corona. In particular, this thesis has focused on developing an efficient two-fluid hydrodynamic model, EBTEL-2fl (see \S\ref{subsec:two_fluid_ebtel}), to study the effect of various heating parameters on the emission measure in active region cores. The 0D nature and consequentially short run times of the EBTEL-2fl code allow for the exploration of a large parameter space. This thesis has used the newly-developed EBTEL-2fl code to examine the effects of varying heating frequency, loop length, heating amplitude power-law distribution index, and preferrentially heated species on the emission measure and the resulting hotward and coolward emission measure slopes (see \S\ref{subsec:scaling}). Altogether, this amounts to a $20\times3\times3\times3$ parameter space for electron and ion heating as well as the single-fluid case. 
+%
+\par Each EBTEL-2fl run has a simulation time of 80,000 s, with initial conditions determined via static loop solutions (see \ref{subsec:static_v_dynamic}). Flux-limiting (see Eqs. \ref{eq:free_stream_limit} and \ref{eq:flux_limited}) is used so as to more accurately model cooling by thermal conduction in the early heating phase. The Raymond-Klimchuk power-law loss function (see Eq. \hl{RAD LOSS EQ HERE}) is used to model the volumetric radiative losses. In \S\ref{sec:heating_funcs}, the various heating functions used in the EBTEL-2fl runs are discussed. Next, in \S\ref{sec:electron_heating} and \S\ref{sec:ion_heating}, the resulting emission measure curves for the electron- and ion-heating cases are shown. Finally, in \S\ref{sec:single_fluid}, equivalent results for the original single-fluid EBTEL model are shown so as to better elucidate the effects of two-fluid models on forward-modeled emission.
+%
 \section{Heating Functions}
+\label{sec:heating_funcs}
+%
+\par As seen in Fig. \ref{fig:ebtel_tf_compare}, heating functions in EBTEL-2fl are defined in terms of discrete heating events in units of ergs cm$^{-3}$ s$^{-1}$, a volumetric heating rate. Additionally, a static background heating rate of $H_b=3.4\times10^{-6}$ is applied to ensure that the loop does not drop to unphysically low temperatures and densities between heating events. All of the heating functions presented here are composed of triangular pulses with a fixed duration of $\tau=100$ s, a relatively impulsive event. Thus, for loop length $L$ and cross-sectional area $A$, the total energy per event is $Q_i=LAH_i\tau_H/2$, where $H_i$ is the heating rate amplitude for the $i$th event. Thus, each run will consist of $N$ heating events, each of peak amplitude $H_i$ with a steady background value of $H_b$.
+%
+\par Observations have suggested that $\mathrm{EM}$ distributions in active region cores are peaked near 4 MK \citep{warren_constraints_2011,warren_systematic_2012}. This means that the loops in these active region cores are maintained at an equilibrium temperature of $T_{peak}\approx4$ MK. The corresponding heating rate can be estimated using the hydrostatic equations. Using Eq. \hl{HYDROSTATIC EQ REF HERE}, neglecting the radiative loss term and letting $dF_C/ds\approx\kappa_0T_{peak}^{7/2}/L^2$, $E_{H,eq}$ can be estimated as 
+\begin{equation}
+	E_{H,eq}=\frac{\kappa_0T_{peak}^{7/2}}{L^2}.
+\end{equation}
+In the context of loop dynamics, $E_{H,eq}$ can be interpreted as a time-averaged volumetric heating rate. Thus, to maintain an emission measure peaked about $T_{peak}$, the individual heating rates are constrained by 
+\begin{equation}
+	E_{H,eq} = \frac{\tau}{2T}\sum_{i=1}^NH_i.
+\end{equation}
+%
+\par As discussed in \ref{sec:observations}, determining the heating frequency in active region cores will help to place constraints on the source(s) of heat in the corona. Here, the heating frequency is defined in terms of the waiting time, $T_N$, between successive heating events. Following \citet{cargill_active_2014}, the range of waiting times is $250\le T_N\le5000$ s in increments of 250 s, for a total of 20 different possible heating frequencies. Additionally, the $T_N$ can be written as $T_N=(T-N\tau_H)/N$, where $T=80000$ s is the total simulation time. Note that because $T$ and $\tau_H$ are fixed, as $T_N$ increases, $N$ decreases.
 %
 \section{Electron Heating}
+\label{sec:electron_heating}
 %
 \section{Ion Heating}
+\label{sec:ion_heating}
 %
 \section{Single-fluid Comparisons}
+\label{sec:single_fluid}
